@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ page.title}}</title>
+    <link type="text/css" href="./stylesheets/normalize.css" />
+    {% if page.author %}<meta name="author" content="{{ page.author }}" />{% endif %}
+  </head>
+  <body>
+    {{ content }}
+  </body>
+</html>
