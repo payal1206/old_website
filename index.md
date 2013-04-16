@@ -1,4 +1,4 @@
 ---
-title : A Finite Number of Monkeys
+title : AFiniteNumberOfMonkeys
 layout: default
 ---
