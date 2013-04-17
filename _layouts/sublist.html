@@ -21,10 +21,9 @@ layout: default
       <p>{{ post.summary }}</p>
     {% endif %}
     <div class="more small">
-      tags
-      {% for tag in post.tags %}
-        <a href="/tag/{{ tag }}/">#{{ tag }}</a>
-      {% endfor %}
+      {% assign item = post %}
+      {% include tags.html  %}
+      {% assign item = nil  %}
       <a href="{{ post.url }}" class="readon">read on</a>
     </div>
   </article>

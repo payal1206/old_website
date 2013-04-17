@@ -8,9 +8,8 @@ layout: default
   </h1>
   {{ content }}
   <div class="more small">
-    tags
-    {% for tag in page.tags %}
-      <a href="/tag/{{ tag }}/">#{{ tag }}</a>
-    {% endfor %}
+    {% assign item = page %}
+    {% include tags.html  %}
+    {% assign item = nil  %}
   </div>
 </article>
