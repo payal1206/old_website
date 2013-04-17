@@ -18,3 +18,5 @@ main(void)
 ```
 
 Possibly without.
+
+We have taken part in a few [CTFs](/category/ctf/) notably [PoliCTF2012](/tag/polictf2012/).
