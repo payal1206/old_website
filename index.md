@@ -5,7 +5,7 @@ layout: default
 Welcome
 ===
 
-This is a place were will talk about things.
+This is a place where we will talk about things.
 
 Possibly with code.
 

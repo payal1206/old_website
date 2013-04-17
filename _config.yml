@@ -1,4 +1,4 @@
-safe: true
 pygments: true
 markdown: redcarpet
 title: AFiniteNumberOfMonkeys
+paginate: 5

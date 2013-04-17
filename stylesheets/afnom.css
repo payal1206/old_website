@@ -114,3 +114,23 @@ pre {
   white-space: pre;
   overflow: auto;
 }
+
+h2 .posted {
+  font-size: 60%;
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+a.readon {
+  display: block;
+  text-align: right;
+  font-size: small;
+}
+
+.pv {
+  border-top: 1px dotted #999;
+  margin-top: 10px;
+  padding-top: 10px;
+  font-size: small;
+}
