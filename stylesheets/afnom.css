@@ -1,5 +1,5 @@
 html, body {
-  background: #e0e0dc;
+  background: #333;
   font-family: sans-serif;
   font-weight: 300;
   color: #333;
@@ -21,13 +21,24 @@ h1 {
   font-size: 27px;
 }
 
+h2 {
+  font-weight: 300;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
 header, div#sctop, nav#nvtop, footer {
   text-align: left;
   width: 600px;
   margin: auto;
 }
 
+header h1 {
+  color: #ddd;
+}
+
 footer {
+  color: #bbb;
   margin-top: 10px;
   text-align: center;
   font-size: 70%;
@@ -35,7 +46,7 @@ footer {
 
 nav#nvtop {
   margin-top: 10px;
-  border-top: 1px dotted #999;
+  /*border-top: 1px dotted #999;*/
   border-bottom: 1px dotted #999;
 }
 
@@ -53,7 +64,7 @@ nav#nvtop a {
 }
 
 div#sctop {
-  border-bottom: 1px dotted #999;
+  /*border-bottom: 1px dotted #999;*/
 }
 
 a {
@@ -78,4 +89,23 @@ div#sctop p:nth-of-type(1) {
 div#sctop p:last-of-type {
   margin-bottom: 0px;
   padding-bottom: 0px;
+}
+
+.highlight {
+  background: #272822;
+  color: #f8f8f2;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.highlight pre {
+  font-size: 13px;
+  margin: 0;
+}
+
+blockquote {
+  margin-left: 30px;
+  margin-right: 30px;
+  font-size: 80%;
 }
