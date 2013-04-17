@@ -2,13 +2,13 @@
 layout: default
 ---
 {% if page.grouptype == 'tag' %}
-  <h1>#{{ page.tag }}</h1>
+  <h1>##{{ page.tag }}</h1>
 {% elsif page.grouptype == 'category' %}
-  <h1>#{{ page.category }}</h1>
+  <h1>{% if page.title %}{{ page.title }}{% else %}#{{ page.category }}{% endif %}</h1>
 {% endif %}
 
-{% if page.type_title %}
-  <p>{{ page.type_title }}</p>
+{% if page.description %}
+  <p>{{ page.description }}</p>
 {% endif %}
 
 {% for post in paginator.posts %}

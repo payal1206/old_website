@@ -50,10 +50,10 @@ module Jekyll
           site.config[@type].each do |entry|
             if entry["name"] == val
               if entry["title"]
-                self.data["type_title"] = entry["title"]
+                self.data["title"] = entry["title"]
               end
               if entry["description"]
-                self.data["type_description"] = entry["description"]
+                self.data["description"] = entry["description"]
               end
               break
             end
