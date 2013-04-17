@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<article>
+  <h1>
+    <a href="{{ page.url }}">{{ page.title }}</a>
+    <span class="posted small">Posted on {{ page.date | date: "%A, %d %B %Y" }} by {{ page.author }}.</span>
+  </h1>
+  {{ content }}
+  <div class="more small">
+    tags
+    {% for tag in page.tags %}
+      <a href="/tag/{{ tag }}/">#{{ tag }}</a>
+    {% endfor %}
+  </div>
+</article>

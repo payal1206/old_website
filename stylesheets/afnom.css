@@ -115,8 +115,7 @@ pre {
   overflow: auto;
 }
 
-h2 .posted {
-  font-size: 60%;
+.posted {
   display: block;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -125,7 +124,12 @@ h2 .posted {
 a.readon {
   display: block;
   text-align: right;
+  float: right;
   font-size: small;
+}
+
+.small {
+  font-size: 12px;
 }
 
 .pv {
@@ -133,4 +137,8 @@ a.readon {
   margin-top: 10px;
   padding-top: 10px;
   font-size: small;
+}
+
+.more {
+  margin-top: 10px;
 }

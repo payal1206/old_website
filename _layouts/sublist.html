@@ -2,21 +2,31 @@
 layout: default
 ---
 {% if page.grouptype == 'tag' %}
-  <h1>#{{ page.tag }}</h2>
+  <h1>#{{ page.tag }}</h1>
 {% elsif page.grouptype == 'category' %}
-  <h1>#{{ page.category }}</h2>
+  <h1>#{{ page.category }}</h1>
+{% endif %}
+
+{% if page.type_title %}
+  <p>{{ page.type_title }}</p>
 {% endif %}
 
 {% for post in paginator.posts %}
   <article>
     <h2>
       <a href="{{ post.url }}">{{ post.title }}</a>
-      <span class="posted">Posted on {{ post.date | date: "%A, %d %B %Y" }} by {{ post.author }}.</small>
+      <span class="posted small">Posted on {{ post.date | date: "%A, %d %B %Y" }} by {{ post.author }}.</span>
     </h2>
     {% if post.summary %}
       <p>{{ post.summary }}</p>
     {% endif %}
-    <a href="{{ post.url }}" class="readon">read on</a>
+    <div class="more small">
+      tags
+      {% for tag in post.tags %}
+        <a href="/tag/{{ tag }}/">#{{ tag }}</a>
+      {% endfor %}
+      <a href="{{ post.url }}" class="readon">read on</a>
+    </div>
   </article>
 {% endfor %}
   
@@ -28,8 +38,8 @@ layout: default
   {% capture root %}{% endcapture %}
 {% endif %}
 
-<div class="pv">
-  {% if paginator and paginator.total_pages > 1 %}
+{% if paginator and paginator.total_pages > 1 %}
+  <div class="pv">
     {% if paginator.previous_page %}
       {% if paginator.previous_page == 1 %}
         <a class="pp" href="{{ root }}/">Previous</a>
@@ -59,7 +69,7 @@ layout: default
     {% else %}
       <span class="pn di">Next</span>
     {% endif %}
-  {% endif %}
-</div>
+  </div>
+{% endif %}
 {% assign root = nil %}
 {% assign type = nil %}
