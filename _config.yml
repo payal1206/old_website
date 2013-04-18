@@ -2,3 +2,9 @@ pygments: true
 markdown: redcarpet
 title: AFiniteNumberOfMonkeys
 paginate: 5
+tags:
+  - name: polictf2012
+    description: PoliCTF - Event organized by a team of students from Politecnico di Milano.
+categories:
+  - name: ctf
+    title: Capture the Flag
