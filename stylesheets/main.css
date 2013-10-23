@@ -40,3 +40,10 @@ h2
 	padding: 0 2px;
 	font-size: 1.1em;
 }
+
+#latest-meeting
+{
+	text-align: center;
+	font-weight: bold;
+	width: 100%;
+}
