@@ -18,6 +18,7 @@ header > div
 .header-main
 {
 	font-size: 2em;
+	font-weight: bold;
 }
 
 .header-sub
