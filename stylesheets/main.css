@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,500italic,700italic);
+
 html
 {
 	font-family: Arial, Helvetica, sans-serif;
@@ -7,6 +9,13 @@ header
 {
 	overflow: hidden;
 	min-height: 250px;
+	width: 100%;
+}
+
+header.writeup
+{
+	overflow: hidden;
+	min-height: 50px;
 	width: 100%;
 }
 
@@ -39,6 +48,10 @@ h2
 	color: #ffffff;
 	padding: 0 2px;
 	font-size: 1.1em;
+}
+
+p.code {
+	font-family:"Ubuntu Mono";
 }
 
 #latest-meeting
