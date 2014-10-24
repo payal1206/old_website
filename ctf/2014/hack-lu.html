@@ -17,178 +17,38 @@
 	</div>
 </header>
 
-<h2>Gunslinger Joe's private Terminal</h2>
+<h3>4 - Gunslinger Joe's private Terminal</h3>
 
-<h4>Description</h4>
+<a href="files/04-gunslinger-joe-s-private-terminal.md">Solution by <strong>xorpse</strong></a>
 
-<p><strong>Author</strong>: cutz <br />
-	<strong>Category</strong>: Misc</p>
+<h3>6 - Gunslinger Joe's Gold Stash</h3>
+<a href="files/06-gunslinger-joe-s-gold-stash.md">Solution by <strong>xorpse</strong></a>
 
-<p>Gunslinger Joe has a pretty bad memory and always forgets the password for
-his private terminals! That's why he always uses his username as password but
-also makes sure that absolutely no one else who knows his name can interact
-with his secure terminal. Wouldn't it be super embarrassing for him to prove
-him wrong?</p>
+<h3>9 - ImageUpload <br />
+	11 - Objection <br />
+	31 - Wanted: Translator </h3>
+<a href="files/9_11_31/write_up.html">Solution by <strong>Mike</strong></a>
 
-<p>SSH: <a href="gunslinger_joe@wildwildweb.fluxfingers.net">gunslinger_joe@wildwildweb.fluxfingers.net</a> <br>
-PORT: 1403</p>
+<h3>12 - Hidden in ρlaιn sιght</h3>
+<a href="files/Challenge12.js">Solution by <strong>Mihai</strong></a>
 
-<h4>Solution</h4>
+<h3>13 - Killy The Bit</h3>
+<a href="files/killy_write_up_joe.html">Solution by <strong>Joe</strong></a>
 
-<p><strong>Author</strong>: Sam Thomas / xorpse</p>
+<h3>16 - Guess the Flag</h3>
+<a href="http://r.rogdham.net/24">Solution by <strong>Rogdham</strong></a>
 
-<p>After logging in and attempting to enter a few commands into the shell, we see
-that characters in `[A-Za-z]` are being stripped from the input before being
-interpreted:</p>
+<h3>18 - At Gun Point</h3>
+<a href="files/18_AtGunPoint/writeup.html">Solution by <strong>Piotr</strong></a>
 
-<p class="code">
-$ ls <br />
-$ echo "hello"<br />
-: : command not found<br />
-$ echo "12345"<br />
-: 12345: command not found<br />
-$ $?<br />
-: 0: command not found
-</p>
+<h3>19 - Barmixing bot</h3>
+<a href="files/19-barmixing-bot.md">Solution by <strong>xorpse</strong></a>
 
-<p>Since digits (`[0-9]`) are not being stripped, we could try to encode the command
-using escape sequences -- it turns out octal as a number system is perfectly suited
-for this. The command `ls` can be encoded as: `$'\154'$'\163'` and gives:</p>
+<h3>23 - Personal Database</h3>
+<a href="files/23_Personal_Database/writeup.html">Solution by <strong>Piotr</strong></a>
 
-<p class="code">
-$ $'\154'$'\163'<br />
-FLAG  terminal
-</p>
-
-<p>Now, it's simply a matter of performing `cat FLAG`; which can be encoded as:</p>
-<p class="code">`$'\143'$'\141'$'\164'  $'\106'$'\114'$'\101'$'\107'`</p>
-
-...and gives us:
-
-<p class="code">
-$ $'\143'$'\141'$'\164'  $'\106'$'\114'$'\101'$'\107'<br />
-flag{joe_thought_youd_suck_at_bash}
-</p>
-
-
-<h2>Meetings</h2>
-
-	<!--
-<p> We normally meet in Room 245, Computer Science, from 3-5pm on
-	Fridays.
-
-The next meeting is:</p>
-
-
-<div id="latest-meeting">Room 245, from 4-5:30pm on Friday the 8st of Nov.</div>-->
-
-<p>Everyone is welcome, we can find hacking challenges that are appropriate for every skill level, however <b>you must bring a laptop</b>.</p> 
-
-
-
-
-<p> We are on a summer break. Meetings will start again in October.</p>
-
-	
-
-<h2>Writeups</h2>
-
-<p>Some of the previous hacking competitions we have gone in for include:</p>
-
-<ul>
-
-<li> iCTF Dec 2013
-  <ul>
-    <li> Thanks to Rogdam for a write up of the <a
-  href="http://www.rogdham.net/2013/12/07/ictf-secretvault-write-up.en">secretvault</a> challenge</a>
-    </ul>
-  
-	<li>iCTF March 2013
-	<ul>
-		<li>Write up for the "PowerPlan" challenge can be found: <a href="http://www.rogdham.net/2013/03/23/ictf-powerplan-write-up.en">here</a>.
-	</ul>
-	
-	<li>The "University Cipher Challenge 2013"
-	<ul>
-		<li> A write up of Bristol University's Cipher can be found <a href="http://afnom.github.io/ctf/2013/Cipher.pdf">here</a>.
-	</ul>
-
-	<li>PoliCTF 2012
-	<ul>
-		<li>Write up of Challenge B1n400 can be found: <a href="http://afnom.github.io/ctf/2012/11/23/PoliCTF-B1n400.html">here</a>.
-		<li>Write up of Challenge Forensics-500 can be found: <a href="http://lifayk.blogspot.co.uk/2012/11/polictf-2012-part-0x00-forensics-500.html">here</a>.
-	</ul>
-</ul>
-
-<h2>Links</h2>
-
-
-<h3>Tools: Disassemblers</h3>
-
-<ul>
-
-  <li> IDApro <a
-  href="https://www.hex-rays.com/products/ida/support/download_freeware.shtml">
-  free version (V5.0)</a> and <a
-  href="https://www.hex-rays.com/products/ida/support/download_demo.shtml">Evaluation
-  version</a>, IDA pro <a href="https://www.hex-rays.com/products/ida/support/freefiles/IDA_Pro_Shortcuts.pdf">cheat sheet</a>.
-  <li>Java Decompiler: <a href="http://jd.benow.ca"> JD-GUI</a>
-  <li> Windows disassembler: <a
-  href="http://www.ollydbg.de">OllyDbg</a>
-  <li> Python decompiler: <a href="https://github.com/Mysterie/uncompyle2">Uncompyle2</a>.
-</ul>
-
-
-<h3>Tools: Network</h3>
-
-<ul>
-
-  <li> <a
-  href="https://www.wireshark.org">
-  WireShark</a>
-  <li>The <a href="http://portswigger.net/burp/proxy.html">Burp Proxy</a>
-</ul>
-
-<h3>Tools: Other</h3>
-
-<ul>
-
-  <li> Hex Editor: <a
-  href="http://www.suavetech.com/0xed/">0xED
- </a> (Mac OS).
-  <li>The <a href="http://portswigger.net/burp/proxy.html">Burp Proxy</a>
-</ul>
-
-
-<h3>Learning Material: Web Simulations</h3>
-
-<ul>
-	<li><a href="http://hellboundhackers.org">Hellbound Hackers</a></li>
-	<li><a href="http://www.hackthissite.org">HackThisSite</a></li>
-</ul>
-
-<h3>Learning Material: Vulnerable by Design</h3>
-
-<ul>
-	<li><a href="http://vulnhub.com">VulnHub</a></li>
-	<li><a href="http://www.dvwa.co.uk">Damn Vulnerable Web App</a></li>
-	<li><a href="http://www.overthewire.org/wargames">Over the Wire</a></li>
-	<li><a href="http://smashthestack.org">Smash the Stack</a></li>
-	<li><a href="http://google-gruyere.appspot.com">Google Gruyere</a></li>
-	<li><a href="http://exploit-exercises.com">Exploit Exercises</a></li>
-</ul>
-
-
-
-<h3>Competations</h3>
-
-<ul>
-	<li> <a href="https://ctftime.org">CTF time</a>
- </ul>
-
-<h2>Contact</h2>
-
-<p>To keep up to date about meeting and competitions please join our mailing list  <a href="http://groups.google.com/group/bham-hacking-group">bham-hacking-group</a>. For more information please contact <a href="http://www.cs.bham.ac.uk/~tpc/contact.html">Tom Chothia</a>.</p>
+<h3>24 - Encrypted</h3>
+<a href="files/EncryptedWriteUpHackLU2014.txt">Solution by <strong>Abstract</strong></a>
 
 </body>
 </html>

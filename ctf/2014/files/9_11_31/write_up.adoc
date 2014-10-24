@@ -1,0 +1,265 @@
+
+Hack.lu 2014 Hacking Contest Write-Up
+=====================================
+Michael Denzel <m.denzel@cs.bham.ac.uk>
+v 1.0, 2014-10-23
+:toc:
+:listdef-labeled.style: horizontal
+:listdef-labeled2.style: horizontal
+
+Challenge 9 - "ImageUpload" (Web)
+---------------------------------
+
+Description
+~~~~~~~~~~~
+
+In the Wild Wild Web, there are really bad guys. The sheriff doesn't know them all. Therefore, he needs your help.
+Upload pictures of criminals to this site and help the sheriff to arrest them.
+You can make this Wild Wild Web much less wild!!!
+
+Pictures will be deleted on regular basis!
+
+''''''''''''''''''''''''''''''''
+
+Solution
+~~~~~~~~
+
+ImageUpload was a web based challenge. The website consisted of a Login page and an upload
+section which accepted pictures (jpg/jpeg). After uploading a picture some
+meta-information of the exif-header of images were displayed (height, width, author,
+manufacturer, model).
+
+[[imageupload_pic]]
+image::./imageupload.png[title="ImageUpload Website",align="center",width="60%"]
+
+After unsuccessfully uploading a php shell (as shell.jpg), we focused on the exif data.
+
+There is a tool in Linux to modify this data:
+
+.shell-code
+[source, shell]
+-------------------------------------
+exiftool -<EXIF-FIELD>=<DATA> picture.jpg
+-------------------------------------
+
+Our first guesses were PHP and JavaScript since the data gets displayed on the website (see
+<<imageupload_pic>> below the picture).
+
+But neither PHP nor JavaScript worked.
+
+We then realised that the website shows an error message, when putting an apostrophe `'`
+into the exif data. This means the website is vulnerable to SQL injection attacks.
+
+Unfortunately, it turned out that the chosen exif field was integers-only (other fields were not
+displayed correctly) and we had to deal with outputting numbers only.
+
+For the database we guessed the layout as a table "users" with columns "password" and "name".
+
+To prove it, we counted the password column in table users:
+
+.SQL injection
+[source, shell]
+-------------------------------------
+exiftool -model="' + (SELECT COUNT(password) FROM users) + '" logo.jpeg
+-------------------------------------
+
+The resulting output "2" showed us that
+- table users exists
+- column password exists
+- there are two users
+
+We further guessed one user as "sheriff" at the Login page and confirmed that column "name"
+exists, too.
+
+To output the sheriff's password in numbers we iterated over the password and printed the ascii
+representation of the character. E.g. for the first character in ascii we queried the following:
+
+.final attack string
+[source, shell]
+-------------------------------------
+exiftool -model="' + (SELECT ASCII(SUBSTR(password, 0, 1)) FROM users WHERE name = 'sheriff') + '" logo.jpeg
+-------------------------------------
+
+We retrieved the sheriff's password as "AO7eikkOCucCFJOyyaaQ" and were able to login to retrieve
+the flag `flag{1_5h07_7h3_5h3r1ff}` for 200+70 points.
+
+(joint work Andreea, Joe, Mike)
+
+
+
+Challenge 11 - "Objection" (Web)
+--------------------------------
+
+Description
+~~~~~~~~~~~
+
+This guard talks a weird dialect. And why does he talk in such a complicated way? link:./objection_4966674d17ff296939c0e3dfccfe87ed.co[Download]
+
+nc wildwildweb.fluxfingers.net 1408
+
+''''''''''''''''''''''''''''''''
+
+Solution
+~~~~~~~~
+
+We were able to translate the code into JavaScript using LiveScript: link:./objection.js[objection.js]
+
+When looking at the code, the following line is vulnerable.
+
+.vulnerable line in JavaScript
+[source, javascript]
+-------------------------------------
+if (typeof client_context[funcname] !== 'function') {
+	return con.write("error: unknown function " + funcname + "\n");
+}
+-------------------------------------
+
+It only checks if the function `funcname` exists. But this also includes inherited functions
+of the object `client_context` like e. g. `toString()`.
+
+We, therefore, tried to redefine functions using `eval()`, lamdba-functions, `__defineSetter__`
+and succeeded with `__defineGetter__`.
+
+`__defineGetter__(name, function)` overwrites a label with a function and makes it into a getter.
+The resulting "function" can be used as a normal variable:
+
+.example code
+[source, javascript]
+-------------------------------------
+var finite = {}
+finite.__defineGetter__("monkeys", function(){return "monkeys rock!";}
+console.log(finite.monkeys) //notice the missing brackets - not: finite.monkeys()
+//prints "monkeys rock!" to the console
+-------------------------------------
+
+The only problem is that we do not control the second parameter. The function is
+given in the code:
+
+.attacked part of the JavaScript code
+[source, javascript]
+-------------------------------------
+client_context[funcname](args, function(it){
+	return con.write(it + "\n");
+});
+-------------------------------------
+
+But, since it usually succeeds to write to the connection, it returns true!
+
+So we used `__defineGetter__` to overwrite the variable `is_admin` in order to gain admin
+privileges.
+
+.attack
+-------------------------------------
+hello!
+__defineGetter__ is_admin
+get_token
+undefined
+The current token is flag{real_cowboys_dont_use_object_create_null}
+-------------------------------------
+
+`__defineGetter__ is_admin` overwrites the variable `is_admin` with a getter which uses the
+next argument - here: `function(it){return con.write(it + "\n");}` - and always returns true.
+
+The flag was afterwards retrieved for 150+80 points using `get_token`.
+
+(joint work Chris, Mike)
+
+
+
+Challenge 31 - "Wanted: Translator" (Misc)
+------------------------------------------
+
+Description
+~~~~~~~~~~~
+
+We are in desperate need of a translator who understands the languages of varoius Indian tribes. We already know how to speak to the Apache tribe via HTTP but we have some stuff missing. We offer 5$ per successfully translated language.
+
+(That means you can send us 7 solutions to this challenge and will receive 5 points for each.)
+
+ SMTP
+ GOPHER
+ POP3
+ FINGER
+ TFTP
+ IRC
+ NNTP
+
+''''''''''''''''''''''''''''''''
+
+Solution
+~~~~~~~~
+
+We realised that there was a tftp server running since it was possible to connect with the
+following command.
+
+[source, shell]
+-------------------------------------
+tftp wildwildweb.fluxfingers.net
+-------------------------------------
+
+Afterwards we used the default ports and programs to connect to the other protocols:
+
+SMTP
+^^^^
+- connect to port 25 with telnet 
+- send mail to `fluxfingers@rub.de`
+
+GOPHER
+^^^^^^
+- connection: `telnet wildwildweb.fluxfingers.net gopher`
+- send `\r\n`
+- reconnect
+- send `0\r\n`
+
+POP3
+^^^^
+- `USER flux`
+- `PASS flux`
+- `LIST`
+- `RETR 1`
+
+FINGER
+^^^^^^
+- connected to port 79 using telnet
+- send `\r\n` to get user list
+- reconnect
+- send `r00t\r\n` to get details for the user r00t
+
+TFTP
+^^^^
+The port was open but TFTP does not support a list command, so we wrote a script.
+Guessing the name of the file is another solution.
+
+.perl script
+[source, perl]
+-------------------------------------
+perl -MNet::TFTP -e '$tftp = Net::TFTP->new("wildwildweb.fluxfingers.net"); $tftp->get("flag", \*STDOUT);'
+-------------------------------------
+
+.connection with tftp
+[source, shell]
+-------------------------------------
+tftp wildwildweb.fluxfingers.net
+tftp> get flag
+-------------------------------------
+
+link:./tftp.txt[Here] is the file, including a bonus text adventure.
+
+IRC
+^^^
+- connected to port 6667
+- listed the channels with /list
+- joined channel #flagchannel
+- send a private message to flagbot.
+
+NNTP
+^^^^
+- connection: `telnet wildwildweb.fluxfingers.net nntp`
+- `GROUP apache.chitchat`
+- `NEXT`
+- `ARTICLE`
+
+5 points per challenge makes 35 points in total.
+
+(joint work Chris, Joe, Mike, Sam)
+
