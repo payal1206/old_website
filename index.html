@@ -97,7 +97,7 @@
     <div class="row">
       <!--left-->
       <div class="col-md-3" id="leftCol">
-        <ul class="nav nav-stacked" id="sidebar">
+        <ul class="nav nav-stacked main_side_bar" id="sidebar">
           <li><a href="#sec0">Who we are</a></li>
           <li><a href="#sec1">Meetings</a></li>
           <li><a href="#sec2">Write-ups</a></li>
@@ -376,7 +376,11 @@
     <script src="/js/jquery.sticky.js"></script>
    <script>
   $(document).ready(function(){
-    $("#sidebar").sticky({topSpacing:90});
+        if($(document).width() > '767'){ 
+            $("#sidebar").sticky({topSpacing:90});
+        } else {
+            return false;
+        }
   });
 </script>
 
