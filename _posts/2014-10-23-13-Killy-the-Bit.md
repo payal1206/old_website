@@ -34,7 +34,7 @@ that are similar to the provided name.
 
 This page is serviced by a php script, which is provided with the code that
 generated the password redacted. The index.phps file can be found
-[here](http://afnom.net/assets/2014/killy-the-bit_index.phps.phps) (right click -&gt; save as)
+[here](http://afnom.net/assets/2014/killy-the-bit_index.phps) (right click -&gt; save as)
 
 ## SQL Injection
 
