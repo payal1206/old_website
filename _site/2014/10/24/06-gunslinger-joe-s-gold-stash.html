@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Gunslinger Joe's Gold Stash</title>
+  <meta name="description" content="Description">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/jquery-1.10.2.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="canonical" href="http://afnom.net/2014/10/24/06-gunslinger-joe-s-gold-stash.html">
+  <link rel="alternate" type="application/rss+xml" title="AFiniteNumberOfMonkeys" href="http://afnom.net/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+			   <ul class="dropdown-menu" aria-labelledby="home">
+			     <li><a href="#who">Who we are</a></li>
+			     <li><a href="#meetings">Meetings</a></li>
+			     <li><a href="#tools">Tools</a></li>
+			     <li><a href="#materials">Learning material</a></li>
+			     <li><a href="#contact">Contact</a></li>
+			   </ul>
+			 </li>
+            <li><a href="http://afnom.net/writeups.html">Write-ups</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="container">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Gunslinger Joe's Gold Stash</h1>
+    <p class="post-meta">Oct 24, 2014 • xorpse</p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="description">Description</h2>
+
+<p>Author: cutz</p>
+
+<p>Category: Reversing</p>
+
+<p>Silly Gunslinger Joe has learned from his mistakes with his private terminal
+and now tries to remember passwords. But he’s gotten more paranoid and chose
+to develope an additional method: protect all his private stuff with a secure
+locking mechanism that no one would be able to figure out! He’s so confident
+with this new method that he even started using it to protect all his precious
+gold. So… we better steal all of it!</p>
+
+<p>SSH: joes_gold@wildwildweb.fluxfingers.net</p>
+
+<p>PORT: 1415</p>
+
+<p>PASSWORD: 1gs67uendsx71xmma8</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>Author: Sam Thomas / xorpse</p>
+
+<p>After logging in, we see that there are two files in the home directory:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">joes_gold@goldstash:~<span class="nv">$ </span>ls -l
+total 20
+-r-------- <span class="m">1</span> gold gold    <span class="m">46</span> Oct  <span class="m">6</span> 23:04 FLAG
+-rwsr-sr-x <span class="m">1</span> gold gold <span class="m">13186</span> Oct  <span class="m">6</span> 23:03 gold_stash</code></pre></div>
+
+<p>Notice the setuid and setgid bits on <code>gold_stash</code>: when executed, <code>gold_stash</code>
+will run as if started by the user <code>gold</code>. Note also that <code>FLAG</code> is only
+readable by the user <code>gold</code>.</p>
+
+<p>After transferring <code>gold_stash</code> to a local directory and executing it, we are
+presented with a basic login prompt:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">.</span>
+<span class="go">          (_/-------------_______________________)</span>
+<span class="go">          `|  /~~~~~~~~~~\                       |</span>
+<span class="go">           ;  |--------(-||______________________|</span>
+<span class="go">           ;  |--------(-| ____________|</span>
+<span class="go">           ;  \__________/&#39;</span>
+<span class="go">         _/__         ___;</span>
+<span class="go">      ,~~    |  __--~~       Gunslinger Joe&#39;s</span>
+<span class="go">     &#39;        ~~| (  |       Private Stash of Gold</span>
+<span class="go">    &#39;      &#39;~~  `____&#39;</span>
+<span class="go">   &#39;      &#39;</span>
+<span class="go">  &#39;      `            Password Protection activated!</span>
+<span class="go"> &#39;       `</span>
+<span class="go">&#39;--------`</span>
+<span class="go">Username:</span></code></pre></div>
+
+<p>Disassembling the main function, gives us the credential input routine:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">.text:000000000040093E                 mov     edi, offset format ; &quot;Username: &quot;</span>
+<span class="go">.text:0000000000400943                 mov     eax, 0</span>
+<span class="go">.text:0000000000400948                 call    _printf</span>
+<span class="go">.text:000000000040094D                 mov     rax, cs:__bss_start</span>
+<span class="go">.text:0000000000400954                 mov     rdi, rax        ; stream</span>
+<span class="go">.text:0000000000400957                 call    _fflush</span>
+<span class="go">.text:000000000040095C                 lea     rax, [rbp+s]</span>
+<span class="go">.text:0000000000400963                 mov     edx, 0FFh       ; nbytes</span>
+<span class="go">.text:0000000000400968                 mov     rsi, rax        ; buf</span>
+<span class="go">.text:000000000040096B                 mov     edi, 0          ; fd</span>
+<span class="go">.text:0000000000400970                 call    _read</span>
+<span class="go">.text:0000000000400975                 mov     edi, offset aPassword ; &quot;Password: &quot;</span>
+<span class="go">.text:000000000040097A                 mov     eax, 0</span>
+<span class="go">.text:000000000040097F                 call    _printf</span>
+<span class="go">.text:0000000000400984                 mov     rax, cs:__bss_start</span>
+<span class="go">.text:000000000040098B                 mov     rdi, rax        ; stream</span>
+<span class="go">.text:000000000040098E                 call    _fflush</span>
+<span class="go">.text:0000000000400993                 lea     rax, [rbp+buf]</span>
+<span class="go">.text:000000000040099A                 mov     edx, 0FFh       ; nbytes</span>
+<span class="go">.text:000000000040099F                 mov     rsi, rax        ; buf</span>
+<span class="go">.text:00000000004009A2                 mov     edi, 0          ; fd</span>
+<span class="go">.text:00000000004009A7                 call    _read</span></code></pre></div>
+
+<p>Followed by an uninteresting section of code for removing trailing newlines
+(due to the use of read).</p>
+
+<p>And finally, the authentication check using hardcoded credentials:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">.text:0000000000400A0C                 lea     rax, [rbp+s]</span>
+<span class="go">.text:0000000000400A13                 mov     esi, offset s2  ; &quot;Joe&quot;</span>
+<span class="go">.text:0000000000400A18                 mov     rdi, rax        ; s1</span>
+<span class="go">.text:0000000000400A1B                 call    _strcmp</span>
+<span class="go">.text:0000000000400A20                 test    eax, eax</span>
+<span class="go">.text:0000000000400A22                 jnz     short loc_400A9A ; To authentication failed</span>
+<span class="go">.text:0000000000400A24                 lea     rax, [rbp+buf]</span>
+<span class="go">.text:0000000000400A2B                 mov     esi, offset aOmg_joe_is_so_ ; &quot;omg_joe_is_so_rich&quot;</span>
+<span class="go">.text:0000000000400A30                 mov     rdi, rax        ; s1</span>
+<span class="go">.text:0000000000400A33                 call    _strcmp</span>
+<span class="go">.text:0000000000400A38                 test    eax, eax</span>
+<span class="go">.text:0000000000400A3A                 jnz     short loc_400A9A ; To authentication failed</span>
+<span class="go">.text:0000000000400A3C                 mov     edi, offset aAccessGranted ; &quot;Access granted!&quot;</span></code></pre></div>
+
+<p>So with the user/password combination (Joe/omg_joe_is_so_rich), we try to gain
+access locally:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Username: Joe</span>
+<span class="go">Password: omg_joe_is_so_rich</span>
+<span class="go">Access granted!</span>
+<span class="gp">sh-4.3$</span></code></pre></div>
+
+<p>Success! However, applying the same method on the challenge server yields
+unexpected results:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Username: Joe</span>
+<span class="go">Password: omg_joe_is_so_rich</span>
+<span class="go">Authentication failed!</span></code></pre></div>
+
+<p>What could be wrong? If we debug with gdb on the challenge server we get the
+expected result. However, gdb executes <code>gold_stash</code> as the user <code>joes_gold</code>
+rather than <code>gold</code>. Ergo, one of <code>strcmp</code> or <code>read</code> must be behaving
+differently when executed as the user <code>gold</code>.</p>
+
+<p>A look into the <code>libc.so.6</code> binary on the system reveals nothing untoward;
+another possibilty is that a system call has been hijacked, and an <code>ls</code> of the
+kernel modules directory seems to point in that direction (notice the <code>joe</code>
+directory):</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">joes_gold@goldstash:~<span class="nv">$ </span>ls -l /lib/modules/3.13.0-36-generic/kernel/
+total 40
+drwxr-xr-x  <span class="m">3</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 arch
+drwxr-xr-x  <span class="m">3</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 crypto
+drwxr-xr-x <span class="m">77</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 drivers
+drwxr-xr-x <span class="m">55</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 fs
+drwxr-xr-x  <span class="m">2</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 23:08 joe
+drwxr-xr-x  <span class="m">6</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 lib
+drwxr-xr-x  <span class="m">2</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:29 mm
+drwxr-xr-x <span class="m">51</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 net
+drwxr-xr-x <span class="m">13</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 sound
+drwxr-xr-x  <span class="m">4</span> root root <span class="m">4096</span> Oct  <span class="m">6</span> 21:28 ubuntu</code></pre></div>
+
+<p>…which contains a module <code>joe.ko</code>. Such module should contain an <code>init</code>
+function. In this case, <code>joe_init</code>. In order to hijack a system call, the
+system call table must be located:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">.text:00000000000001E6                 mov     rax, 0FFFFFFFF81000000h</span>
+<span class="go">.text:00000000000001ED                 mov     rbp, rsp</span>
+<span class="go">.text:00000000000001F0                 jmp     short loc_204</span>
+<span class="go">.text:00000000000001F0 ; ---------------------------------------------------------------------------</span>
+<span class="go">.text:00000000000001F2                 align 8</span>
+<span class="go">.text:00000000000001F8</span>
+<span class="go">.text:00000000000001F8 loc_1F8:                                ; CODE XREF: joe_init+2Cj</span>
+<span class="go">.text:00000000000001F8                 add     rax, 8</span>
+<span class="go">.text:00000000000001FC                 cmp     rax, 0FFFFFFFFA2000000h</span>
+<span class="go">.text:0000000000000202                 jz      short loc_268</span>
+<span class="go">.text:0000000000000204</span>
+<span class="go">.text:0000000000000204 loc_204:                                ; CODE XREF: joe_init+10j</span>
+<span class="go">.text:0000000000000204                 cmp     qword ptr [rax+18h], offset sys_close</span>
+<span class="go">.text:000000000000020C                 jnz     short loc_1F8</span>
+<span class="go">.text:000000000000020E                 test    rax, rax</span>
+<span class="go">.text:0000000000000211                 mov     cs:sct, rax</span></code></pre></div>
+
+<p>Once found, it’s stored within <code>sct</code>. <code>read</code> is the first system call, (i.e. at
+offset 0 within <code>sct</code>) and is replaced with a function called <code>joe</code>:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">.text:0000000000000231                 mov     rdx, cs:sct</span>
+<span class="go">.text:0000000000000238                 mov     rax, offset joe</span>
+<span class="go">.text:000000000000023F                 xchg    rax, [rdx]</span>
+<span class="go">.text:0000000000000242                 mov     cs:o_read, rax</span></code></pre></div>
+
+<p>The address of the original read function is saved to <code>o_read</code>.</p>
+
+<p>The function <code>joe</code> (from a high-level) works as:</p>
+
+<ul>
+  <li>Read buffer using <code>o_read</code>;</li>
+  <li>Copy buffer from user to kernel using <code>copy_from_user</code>;</li>
+  <li>If uid == 1001: encode first 18 characters using:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">char</span> <span class="o">*</span><span class="n">pad</span> <span class="o">=</span> <span class="s">&quot;123456789012445678&quot;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">input</span> <span class="o">=</span> <span class="p">...</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pad</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">4</span><span class="p">);</span></code></pre></div>
+
+<ul>
+  <li>If the original string compared equal to ‘omg_joe_is_so_rich’ or if
+the original string had the prefix ‘omg_joe_is_so_rich’ then the encoded
+value replaces it (via copy_to_user).</li>
+</ul>
+
+<p>To get the desired string we need to encode ‘omg_joe_is_so_rich’:</p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">char</span> <span class="o">*</span><span class="n">pad</span> <span class="o">=</span> <span class="s">&quot;123456789012445678&quot;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">input</span> <span class="o">=</span> <span class="s">&quot;omg_joe_is_so_rich&quot;</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">pad</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Which gives: bcXoc]VkTGrE_oKcXT as the encoded password.</p>
+
+<p>The FLAG file can then be read:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">Username: Joe</span>
+<span class="go">Password: bcXoc]VkTGrE_oKcXT</span>
+<span class="go">Access granted!</span>
+<span class="gp">$</span> cat FLAG
+<span class="go">flag{joe_thought_youd_never_find_that_module}</span></code></pre></div>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <hr>
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12">
+
+       
+        <p><p>Copyright &copy; University of Birmingham 2014</p></p>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

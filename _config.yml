@@ -1,0 +1,15 @@
+# Site settings
+title: AFiniteNumberOfMonkeys
+email: your-email@domain.com
+description: > # this means to ignore newlines until "baseurl:"
+  AFiniteNumberOfMonkeys -- the Hacking Club of University of Birmingham.
+  Any problem can be solved by enough monkeys acting completely at random
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://afnom.net" # the base hostname & protocol for your site
+github_username:  afnom
+
+# Build settings
+markdown: kramdown
+highlighter: pygments
+paginate: 10
+paginate_path: "writeups/page:num/"

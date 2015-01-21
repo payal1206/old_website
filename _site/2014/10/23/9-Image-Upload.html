@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>ImageUpload</title>
+  <meta name="description" content="Description">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/jquery-1.10.2.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="canonical" href="http://afnom.net/2014/10/23/9-Image-Upload.html">
+  <link rel="alternate" type="application/rss+xml" title="AFiniteNumberOfMonkeys" href="http://afnom.net/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+			   <ul class="dropdown-menu" aria-labelledby="home">
+			     <li><a href="#who">Who we are</a></li>
+			     <li><a href="#meetings">Meetings</a></li>
+			     <li><a href="#tools">Tools</a></li>
+			     <li><a href="#materials">Learning material</a></li>
+			     <li><a href="#contact">Contact</a></li>
+			   </ul>
+			 </li>
+            <li><a href="http://afnom.net/writeups.html">Write-ups</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="container">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">ImageUpload</h1>
+    <p class="post-meta">Oct 23, 2014 • Break</p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="description">Description</h2>
+
+<p>In the Wild Wild Web, there are really bad guys. The sheriff doesn’t know them all. Therefore, he needs your help.
+Upload pictures of criminals to this site and help the sheriff to arrest them.
+You can make this Wild Wild Web much less wild!!!</p>
+
+<p>Pictures will be deleted on regular basis!</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>ImageUpload was a web based challenge. The website consisted of a Login page and an upload
+section which accepted pictures (jpg/jpeg). After uploading a picture some
+meta-information of the exif-header of images were displayed (height, width, author,
+manufacturer, model).</p>
+
+<p><img src="http://afnom.net/assets/2014/imageupload.png" alt="./imageupload.png" /></p>
+
+<p>After unsuccessfully uploading a php shell (as shell.jpg), we focused on the exif data.</p>
+
+<p>There is a tool in Linux to modify this data: <code>shell-code</code></p>
+
+<pre><code>exiftool -&lt;EXIF-FIELD&gt;=&lt;DATA&gt; picture.jpg
+</code></pre>
+
+<p>Our first guesses were PHP and JavaScript since the data gets displayed on the website (see
+<a href="#imageupload_pic">[imageupload_pic]</a> below the picture).</p>
+
+<p>But neither PHP nor JavaScript worked.</p>
+
+<p>We then realised that the website shows an error message, when putting an apostrophe <code>'</code>
+into the exif data. This means the website is vulnerable to SQL injection attacks.</p>
+
+<p>Unfortunately, it turned out that the chosen exif field was integers-only (other fields were not
+displayed correctly) and we had to deal with outputting numbers only.</p>
+
+<p>For the database we guessed the layout as a table “users” with columns “password” and “name”.</p>
+
+<p>To prove it, we counted the password column in table users:</p>
+
+<pre><code>exiftool -model="' + (SELECT COUNT(password) FROM users) + '" logo.jpeg
+</code></pre>
+
+<p>The resulting output “2” showed us that</p>
+
+<ul>
+  <li>table users exists</li>
+  <li>column password exists</li>
+  <li>there are two users</li>
+</ul>
+
+<p>We further guessed one user as “sheriff” at the Login page and confirmed that column “name”
+exists, too.</p>
+
+<p>To output the sheriff’s password in numbers we iterated over the password and printed the ascii
+representation of the character. E.g. for the first character in ascii we queried the following:</p>
+
+<pre><code>exiftool -model="' + (SELECT ASCII(SUBSTR(password, 0, 1)) FROM users WHERE name = 'sheriff') + '" logo.jpeg
+</code></pre>
+
+<p>We retrieved the sheriff’s password as “AO7eikkOCucCFJOyyaaQ” and were able to login to retrieve
+the flag <code>flag{1_5h07_7h3_5h3r1ff}</code> for 200+70 points.</p>
+
+<p>(joint work Andreea, Joe, Mike)</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <hr>
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12">
+
+       
+        <p><p>Copyright &copy; University of Birmingham 2014</p></p>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

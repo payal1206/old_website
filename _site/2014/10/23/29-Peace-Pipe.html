@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Peace Pipe</title>
+  <meta name="description" content="Category: Crypto">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/jquery-1.10.2.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="canonical" href="http://afnom.net/2014/10/23/29-Peace-Pipe.html">
+  <link rel="alternate" type="application/rss+xml" title="AFiniteNumberOfMonkeys" href="http://afnom.net/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+			   <ul class="dropdown-menu" aria-labelledby="home">
+			     <li><a href="#who">Who we are</a></li>
+			     <li><a href="#meetings">Meetings</a></li>
+			     <li><a href="#tools">Tools</a></li>
+			     <li><a href="#materials">Learning material</a></li>
+			     <li><a href="#contact">Contact</a></li>
+			   </ul>
+			 </li>
+            <li><a href="http://afnom.net/writeups.html">Write-ups</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="container">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Peace Pipe</h1>
+    <p class="post-meta">Oct 23, 2014 • Piotr Kordy</p>
+  </header>
+
+  <article class="post-content">
+    <p><em>Category:</em> Crypto</p>
+
+<p><em>Points:</em> 300</p>
+
+<p><em>Author:</em> Mpex</p>
+
+<p><em>Description:</em></p>
+
+<p>After a long day, you sit around a campfire in the wild wild web with a few
+Sioux you met today. To celebrate friendship one of them takes out his wooden
+peace pipe and minutes later everyone seems to be pretty dizzy. You remember
+that their war chief “Makawee” started something to say about a secret tipi
+filled with fire-water (the good stuff). But when he noticed your interest he
+immediately stopped talking. You recall that “Makawee” spoke with “Wahkoowah”
+about that issue, but it ended with a fight. Since then Makawee wouldnt talk to
+Wahkoowah anymore. While they argued “Chapawee” wrote something down. Maybe you
+can exploit their dizzyness to find out the location of the tipi.</p>
+
+<pre><code>wildwildweb.fluxfingers.net 1432 
+wildwildweb.fluxfingers.net 1433 
+wildwildweb.fluxfingers.net 1434
+</code></pre>
+
+<h2 id="write-up">Write-up</h2>
+<p>Connecting to <code>wildwildweb.fluxfingers.net 1432</code> gives us protocol description:</p>
+
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">====================</span>
+<span class="go">                        +Description of Truth+</span>
+<span class="go">                         ====================</span>
+
+<span class="go">Wahkoowah                                                              Makawee</span>
+
+
+
+<span class="go">* choose random r_w out of Q                      choose random r_m out of Q *</span>
+<span class="go">* Compute                                                            Compute *</span>
+<span class="go">  t_w = pubk_m ^ r_w % p                              t_m = pubk_w ^ r_m % p *</span>
+<span class="go">* send t_w to m                                                send t_m to w *</span>
+
+
+<span class="go">                                       t_w</span>
+<span class="go">                            ------------------------&gt;</span>
+
+<span class="go">                                       t_m</span>
+<span class="go">                            &lt;------------------------</span>
+
+<span class="go">* Compute shared secret</span>
+<span class="go">  key = t_m ^ (privk_w ^ -1) * g ^ r_w % p</span>
+
+
+<span class="go">                                                       Compute shared secret *</span>
+<span class="go">                                    key = t_w ^ (privk_m ^ -1) * g ^ r_m % p</span>
+
+
+<span class="go">* if talking to m</span>
+<span class="go">  send token = enc_key(auth)</span>
+<span class="go">                                       token</span>
+<span class="go">                             ------------------------&gt;</span>
+
+<span class="go">                                                           if token is valid *</span>
+<span class="go">                                                                   send flag *</span>
+<span class="go">                                            flag</span>
+<span class="go">                             &lt;------------------------</span>
+
+
+
+<span class="go"> More Information</span>
+<span class="go"> ----------------</span>
+
+
+<span class="go">privkey = some_value % p</span>
+<span class="go">pubkey = g ^ privkey % p</span>
+
+<span class="go">g = 2</span>
+
+<span class="go">p = ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e08</span>
+<span class="go">8a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b</span>
+<span class="go">0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b</span>
+<span class="go">0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece4</span>
+<span class="go">5b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23</span>
+<span class="go">dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f174</span>
+<span class="go">6c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28f</span>
+<span class="go">b5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa</span>
+<span class="go">051015728e5a8aacaa68ffffffffffffffff</span></code></pre></div>
+
+<p>We also get associated public keys for Chapawee, Makawee and Wahkoowah.
+Additionaly we can register our own key. Looking at the protocol a
+Man-In-The-Middle attack seems like good approach:</p>
+
+<ul>
+  <li>Register public key and get Wahkoowah</li>
+  <li>Go to Makawee and pretend to be Wahkoowah, go to Wahkoowah and pretend to be
+Makawee</li>
+  <li>
+    <p>Relay messages to get the flag</p>
+
+    <p>nc wildwildweb.fluxfingers.net 1434 
+ Hi, I’m, Makawee, and you are? Too bright here…
+ Wahkoowah
+ I dont talk to you anymore. That thing with my daughter…</p>
+  </li>
+</ul>
+
+<p>There goes our attack approach. Let us try to eliminate encryption by pretending
+our public key is zero - that is we send <em>p</em> as <em>t_w</em>.</p>
+
+<pre><code>Hi, I'm Wahkoowah. Who are you? Too foggy...
+Makawee
+Oh its you, Im so sorry. Can we talk now?
+This is your key of truth
+50e7e1957c1786a9442f0c9f372ec19f74f52839e9e38849b47438153f9d
+2483213a43ad2d988fab4a8707922060aaefe6504a70637596fbcf9d5836
+2b23e5d5e2177fd4e919b80437bab51eda931e065b6d66fce343d7cb2b7c
+1ca26214792d461895095ae58354af0dec6e63869007e23835892f26aabc
+96fe3d9084a829b4d6c5b92c6f3e0dd9a70cbd5c72d6434f2b94d21c3b0c
+58a288c140642b813ffb1b632bc358b3a6af0124902acd8792202c848de7
+f9d5d98bee51ca69040c8a2457ad3fa6276d6510701b9a875df612e03532
+2cad06579a0a11f5e7cb4ebb7b69171c38585fc0f4fe07b0c88944239702
+9d05dc801026a0648d7aa8c847420e9c
+With magic I did this:
+ba7c4b2c49d5705be1c68ffe1d81086ce37c49fe2089894d95fcc4d0ab29
+db3d04621eb767701a72bb161fbb20f6b5256c8c4123870eeefaca0d539b
+4487c83786aff76add45feb66ab611a617b0819c617a2ca499ef216dbabc
+80a39b4fc924177563be7bb0a8f290d2d6552b08edfaddf5e2e7f03b4b25
+95124d1b13769a2c54a67102dafab08d53d8f516ee38de3c972b8a8e2b38
+4b25062df9323634817e65303404ff0f1dcbbe0462318daf1b624bf04ed3
+0ab043579cf9ae72eb1aa0ed93fea36a7293b71a9bd579425ebc8703784c
+89ff1cc17b21929004ba5af3950bf758be64da158641425b23c1bf67e4be
+160ebb6b39262d525541c365735b6f83
+We continue our conversation, right?
+ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67
+cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6d
+f25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff
+5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3d
+c2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3
+ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08
+ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c5
+5df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa0510
+15728e5a8aacaa68ffffffffffffffff
+Now I can almost see it, the sheer truth
+cnJEBmiBlUkXirI0DXnu5jo6FGGTNOrDrLS3Go5xJvyuuExro8I6169GjWCT492C4LI=
+</code></pre>
+
+<p>It worked! Wahkoowah accepted 0 as correct token. Now let us try the same with
+Makawee and use the answer from Wahkoowah…</p>
+
+<pre><code>Hi, I'm, Makawee, and you are? Too bright here...
+test
+test ... do I know you?
+This is your key of truth
+fffffffffffffffffffffffffffffffffffff
+With magic I did this:
+69806cfb1d060d2916f4f645c21cd45a8cb7e2b9f911d13823a53eeebe10
+13196a4eb91ab4ee246f23e151a216405f4875bde32214e2725a0a7048c7
+c5a27bac84d9189f8569027a16ed51c7758aa673a7b2d20179fa633722db
+efa99d621ea90788207643942e9a1f1965b0ddcb65cc7ccd9d31921187be
+5e1c27bcc3c16b933cbcf7c16af47607694f931be0cb4cadef4e82f3651d
+bc5ae038039f02c0de62307e33e01067575317f6c553cdd7233a4b6f6238
+0fa1ed92b2c45ba638213c9b6e1b8589fe0d8c769ce54840dbeb3a38baff
+0791d5071d48d3ada2e23b7a02e463cfb092afaee9c1896c3694e99418a3
+c5c5de0d4464514901ff926b92ab69c5
+grml...
+ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67
+cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6d
+f25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff
+5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3d
+c2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3
+ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08
+ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c5
+5df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa0510
+15728e5a8aacaa68ffffffffffffffff
+Bit more truth is missing
+cnJEBmiBlUkXirI0DXnu5jo6FGGTNOrDrLS3Go5xJvyuuExro8I6169GjWCT492C4LI=
+I knew you are able to see IT. Lets get drunk, I tell you where
+flag{FreeBoozeForEverone-Party!}
+</code></pre>
+
+<p>Flag <em>FreeBoozeForEverone-Party!</em></p>
+
+<h2 id="other-write-ups-and-resources">Other write-ups and resources</h2>
+
+<ul>
+  <li><a href="http://tasteless.se/2014/10/hack-lu-ctf-2014-peace-pipe/">Write-up by tasteless</a></li>
+</ul>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <hr>
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12">
+
+       
+        <p><p>Copyright &copy; University of Birmingham 2014</p></p>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

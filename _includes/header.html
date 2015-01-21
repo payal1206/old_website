@@ -1,0 +1,42 @@
+<header class="site-header">
+
+  <div class="wrapper">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+			   <ul class="dropdown-menu" aria-labelledby="home">
+			     <li><a href="#who">Who we are</a></li>
+			     <li><a href="#meetings">Meetings</a></li>
+			     <li><a href="#tools">Tools</a></li>
+			     <li><a href="#materials">Learning material</a></li>
+			     <li><a href="#contact">Contact</a></li>
+			   </ul>
+			 </li>
+            <li><a href="http://afnom.net/writeups.html">Write-ups</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+        {% for page in site.pages %}
+          {% if page.title %}
+          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+          {% endif %}
+        {% endfor %}
+
+
+</header>

