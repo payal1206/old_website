@@ -7,8 +7,7 @@ author: Corax
 ---
 
 
-Introduction
-------------
+##Introduction
 
 In this exploit challenge, we have to get a flag from an ARM executable exposed on a port of a distance machine.
 
@@ -20,20 +19,18 @@ Fortunately, there is a rather clear flaw in the function `fgetline()` (@0x41E8)
 
 This was the easy part. I will try to develop in details what I tried, mainly to justify the final solution that looks honestly very ugly. This stuff is rather complex so the walk-through is rather long in order to make it reasonably easy to understand, for the impatient people out there...
 
-TL;DR
------
+##TL;DR
 
 Use this message to get the flag (using Python syntax to build the string):
 
     message = '\x30\xf0\xff\x1f' + '\x00\x00\x00\x00' + '\x00\x00\x00\x00' + 'xxxx' * 2 + '\x05\x00\x00\x00' + 'xxxx' + '\x4c\x42\x00\x00' + 'xxxx' * 3 + '\x28\x40\x00\x00' + '\x60\x42\x00\x00' + '\xb0\x42\x00\x00' + '\x30\xf0\xff\x1f' + 'xxxx' * 6 + '\x70\x42\x00\x00' + 'flag.txt\x00' + '\n'
 
-The (too) obvious way
----------------------
+##The (too) obvious way
 
 The idea is now to execute arbitrary code from the stack and jump to it. This is theoretically quite easy, because we have the start address of the stack (0x1FFFFF000, see @0x4000). As for what to execute, we don't have any library function, so we're reduced to using system calls (note: on this particular platform, system calls are done with `SVC 0xFF` instead of the normal `SVC 0x0` for ARM, no idea why); the easiest solution would be `execve("/bin/cat", { "cat", "test.txt", NULL }, { NULL });`. Unfortunately, I didn't manage to execute anything on the stack, or at least the server hasn't answered anything to my attempts :( This is where the challenge gets tricky...
 
-Calling a function
-------------------
+##Calling a function
+
 
 Our only option is now to execute existing code and make it do what we want by carefully modifying the registers. This looks hard, and it actually is... One good point is that there seems to be no dynamic loader at all: all the addresses in the binary are absolute addresses, e.g. we just have to jump at 0x427C to execute `check_pwd()` (I discovered this because the data @0x1FFF0000 is a raw pointer to 0x432C without any relocation or things like that).
 
@@ -44,8 +41,7 @@ Okay, we now have to understand exactly how the stack overflow works to do our e
 
 Right, knowing that we can call any function with anything in these registers. What follows are the main steps to build the exploit, from the "hello world" to the working exploit. I used Python for sending the messages (pro tip: bash discards '\x00' when manipulating it, wish I had realised this before...), so I will use the `n * "msg"` syntax to repeat strings. 'xxxx' strings are just padding, the contents don't matter.
 
-Make the server print a sent character
---------------------------------------
+##Make the server print a sent character
 
 This is just to demonstrate the essential technique. This message will make the server say 'H':
 
@@ -56,8 +52,7 @@ Here we put 0x41AC (little endian my friends!) in the saved PC, so that when `ch
 
 That way, `getchar()` will put the next character from stdin (here 'H') in R0, and then jump to the saved PC, which is really just the next word on the stack; since we skipped the saving of LR, it will actually jump to the address we provided: 0x41B8, i.e. `putchar()`. Yay, we've just read a character from stdin and printed it on stdout :)
 
-execve() "/bin/cat"?
---------------------
+##execve() "/bin/cat"?
 
 Back to the challenge, let's try to get this flag. The easiest solution is still to execute `cat` on flag.txt. To do that, we need to make a system call: `sys_execve`. On ARM, the calling convention for system calls is easy: R0 is the syscall number and R1..6 are the arguments. But there is a problem: we can't set R0! Fortunately, we can work around that; @0x424C, we have a nice "register loader": `MOV R0, R6` then pop R4-R6 and PC. From now on, we will first set PC to 0x424C, put in R6 the intended value for R0, and then put on the stack some values for R4-R6 (actually we don't care, so just placeholders):
 
@@ -73,8 +68,7 @@ We can now make our system call by jumping to `syscall()` @0x4014. The syscall n
 
 You think this should be complicated enough? If only... When you send this, the server will give you this error: "sim: unknown SWI encountered - b - ignoring". In other words: "hi, we disabled execve". And, after some more checking, same for `sys_fork()`. Damn...
 
-Doing it the even harder way: open()
-------------------------------------
+##Doing it the even harder way: open()
 
 At this point, I've depleted all the "quick" options I could think about. There is only one option remaining: `open()` the file, read from it to somewhere and write the result to stdout...
 
