@@ -241,7 +241,7 @@ field swapping and rotations.
 ### Field swapping
 
 Swapping consists of mapping each `Wires` object to another by swapping the `o1` and `o2`
-fields if the `c` field is not equal to 1. Clearly this process can be reversed by applying
+fields if the `c` field is equal to 1. Clearly this process can be reversed by applying
 the operation twice.
 
 ### Rotation
