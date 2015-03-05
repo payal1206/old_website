@@ -4,8 +4,9 @@ title: "Community College"
 date: 2015-03-01
 ctf: Boston Key Party 2015
 author: xorpse
-ext-url: http://xorp.se/ctf/2015/03/01/boston-key-party-2015-community-college/
 ---
+
+Also found [here](http://xorp.se/ctf/2015/03/01/boston-key-party-2015-community-college/).
 
 The binary is a standard 32-bit ELF for MIPS, confirmed by use of `file`:
 
