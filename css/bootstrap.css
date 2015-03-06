@@ -1372,10 +1372,7 @@ pre {
   line-height: 1.42857143;
   word-break: break-all;
   word-wrap: break-word;
-  color: #282828;
-  background-color: #ccc;
   border: 1px solid #666;
-  border-radius: 4px;
 }
 pre code {
   padding: 0;
