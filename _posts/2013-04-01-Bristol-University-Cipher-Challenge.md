@@ -20,7 +20,7 @@ The cipher came in the form of a text file containing hex, enc. txt. We wrote th
 
 We tried many different encodings to turn this ascii into something we could read and in the end we found that removing 0 from the first byte, 1 from the second, and so on (modulo 128) turn the hex into a readable C file. We did this using a purpose written python program `txt2c.py` and got back a C program:
 
-{% highlight c %}
+{% highlight python %}
 $ python txt2c.py enc.txt
 // A piece of code for encryption + encipherment
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
