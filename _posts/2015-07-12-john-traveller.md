@@ -15,7 +15,7 @@ Also, the query for Helsinki is the only one which returns completed **td class*
 Therefore, looking in the bootstrap CSS file (get it [here](http://afnom.net/assets/2015/PoliCTF/jtrav-bootstrap.css)), we find an 'if' statement conditioned on the class starting with 'w' and browser width between 620px and 640px.
 
 <p align="center">
-  <img src="http://afnom.net/assets/2015/PoliCTF/traveller-bootstrap">
+  <img src="http://afnom.net/assets/2015/PoliCTF/traveller-bootstrap.png">
 </p>
 
 On resize, a QR code appears, which reveals the flag.
