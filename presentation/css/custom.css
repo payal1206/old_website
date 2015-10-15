@@ -1,0 +1,14 @@
+.reveal h2, .reveal h3, .reveal h4 {
+	text-transform: none;
+	font-family: 'Source Code Pro', Inconsolata;}
+
+.reveal p, .reveal li {
+	font-family: 'Source Code Pro', Inconsolata;}
+	
+	
+.reveal strong {color: #a23;}
+
+body {
+    background: #000;
+    background-color: #000;
+}
