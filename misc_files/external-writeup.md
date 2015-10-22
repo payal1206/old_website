@@ -1,4 +1,4 @@
----
+`---
 layout: post
 title: <challenge title>
 date: <YYYY-MM-DD>
@@ -6,6 +6,8 @@ ctf: <CTF name
 author: <your nickname>
 ext-url: <url where you are hosting the write-up>
 ---
+
+IMPORTANT: Remove the ` from the first line! That's just a work-around because of Jekyll -__-''
 
 No content needed.
 

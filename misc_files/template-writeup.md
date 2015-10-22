@@ -1,10 +1,12 @@
----
+`---
 layout: post
 title: <challenge title>
 date: <YYYY-MM-DD>
 ctf: <CTF name
 author: <your nickname>
 ---
+
+IMPORTANT: Remove the ` from the first line! That's just a work-around because of Jekyll -__-''
 
 Your content goes here.
 
@@ -15,9 +17,9 @@ If anyone wants a crash course into markdown, this website was useful for me htt
 
 Code is correctly parsed if it's 4 spaces indented (tab works) or if you want a special highlight please put it between the tags (sorry Sam)
 
-{% highlight LANGUAGE %}
-code goes here....
-{% endhighlight %}
+	{% highlight LANGUAGE %}
+	code goes here....
+	{% endhighlight %}
 
 where LANGUAGE is the programming language you wanna use.
 
