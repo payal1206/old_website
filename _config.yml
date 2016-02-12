@@ -10,6 +10,6 @@ github_username:  afnom
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 paginate: 10
 paginate_path: "writeups/page:num/"
