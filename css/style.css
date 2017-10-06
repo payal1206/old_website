@@ -1,3 +1,13 @@
 .img-monkey {
-	height: 20em;
+	height: 18em;
 	float:right;}
+	
+.post {
+	margin-top: 80px;	
+	}
+	
+.page-header-write-ups {
+    padding-bottom: 9.5px;
+    margin: 100px 0 21px;
+    border-bottom: 1px solid transparent;
+}

@@ -4,19 +4,64 @@
     <meta charset="utf-8">
     <title>AFiniteNumberOfMonkeys -- University of Birmingham Hacking Club</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-darkly.css" media="screen">
 	<link rel="stylesheet" href="css/style.css" >
-    <script src="js/jquery-1.10.2.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link href='css/fullcalendar.min.css' rel='stylesheet' />
+  
+	<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
-      <script src="../bower_components/respond/dest/respond.min.js"></script>
-    <![endif]-->
+	<script src='js/moment.min.js'></script>
+	<script src='js/fullcalendar.min.js'></script>
+	<script src='js/gcal.min.js'></script>
+	<style>
+		
+		#loading {
+			display: none;
+			position: absolute;
+			top: 10px;
+			right: 10px;
+		}
+
+		#calendar {
+			max-width: 700px;
+			margin: 0 auto;
+		}
+		
+	</style>
+	<script type='text/javascript'>
+
+	$(document).ready(function() {
+	    $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,listYear'
+			},
+			
+			displayEventTime: false,
+	        googleCalendarApiKey: 'AIzaSyDeDsb7u3aChyAUe09uTqWvZhCDpzRgVvo',
+	        events: {
+	            googleCalendarId: '9goc0fh70i0aanidu938cgmbnk@group.calendar.google.com'
+	        },
+			eventClick: function(event) {
+				// opens events in a popup window
+				if (event.url) {
+					window.open(event.url);
+				    return false;
+				}
+			},
+			theme: true,
+			themeSystem: "bootstrap3",
+	    });
+	});
+
+	</script>
+
 
   </head>
   <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
@@ -32,13 +77,14 @@
 			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net/" id="home">Home <span class="caret"></span></a>
 			   <ul class="dropdown-menu" aria-labelledby="home">
 			     <li><a href="#who">Who we are</a></li>
+				 <li><a href="#contact">Contact</a></li>
 			     <li><a href="#meetings">Meetings</a></li>
-				 <li><a href="#pubs">Publications</a></li>
-				 <li><a href="#writeups">Writeups</a></li>
-				 <li><a href="#timetable">Timetable</a></li>
+				 <li><a href="#timetable">Calendar</a></li>
 			     <li><a href="#tools">Tools</a></li>
 			     <li><a href="#materials">Learning material</a></li>
-			     <li><a href="#contact">Contact</a></li>
+				 <li><a href="#writeups">Writeups</a></li>
+				 <li><a href="#pubs">Publications</a></li>
+			     
 			   </ul>
 			 </li>
             <li><a href="http://afnom.net/writeups/index.html">Write-ups</a></li>
@@ -51,7 +97,7 @@
 
     <div class="container">
 
-      <div class="page-header" id="banner">
+      <div class="page-header-tall" id="banner">
         <div class="row">
           <div class="col-lg-8 col-md-7 col-sm-6">
             <h1>AFNOM</h1>
@@ -85,6 +131,28 @@
 		  </div>
 		 </div>
 		</div>
+		
+		
+    <!-- Contact
+    ================================================== -->
+    <div class="bs-docs-section clearfix" id="contact">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="page-header">
+            <h3>Contact</h3>
+          </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="bs-component">
+              <p> To keep up to date about meetings and competitions please join our mailing list  <a href="http://groups.google.com/group/bham-hacking-group">bham-hacking-group</a>. We also have a <a href="https://join.slack.com/t/afnom/shared_invite/enQtMjQ1MzYwMDkxNTg3LTA0YzBjM2VjNThmZjQ2MGVmZjdmMTY0YTBhMWE0YzFiNDczZGVhMzBhM2E4MGU5NzdhZmQwMjY2YTEyYjAwMmU">Slack team</a>! For more information please contact <a href="http://www.cs.bham.ac.uk/~air111">Andreea Radu</a>.</p>
+            </div>
+          </div>
+		</div>
+	  </div>
+	 </div>
+	</div>	
+	
 
       <!-- Meetings
       ================================================== -->
@@ -100,209 +168,39 @@
 	            <div class="bs-component">
 		          <p>
 		             Everyone is welcome, we can find hacking challenges that are appropriate for every skill level, however you must bring a laptop. </p>
-					 <p class="text-warning">We're meeting every Friday, in room 217, Computer Science building, from 3pm. If you want to confirm, drop <a href='mail&#116;o&#58;a&#46;%69&#46;r%61d&#117;&#64;&#99;s&#46;b&#104;&#97;m&#46;ac&#46;%75k'>Andreea</a> an email.
+					 <p class="text-success">We meet every Friday, in room 217, Computer Science building, from 3pm. If you want to confirm, drop <a href='mail&#116;o&#58;a&#46;%69&#46;r%61d&#117;&#64;&#99;s&#46;b&#104;&#97;m&#46;ac&#46;%75k'>Andreea</a> an email.
 		          </p>
 	            </div>
 	          </div>
 		  </div>
 		 </div>
 		</div>
-
-	    <!-- Publications
-	    ================================================== -->
-	    <div class="bs-docs-section clearfix" id="pubs">
-	      <div class="row">
-	        <div class="col-lg-12">
-	          <div class="page-header">
-	            <h3>Publications</h3>
-	          </div>
-
-	        <div class="row">
-	          <div class="col-lg-12">
-	            <div class="bs-component">
-	              <p> <a href="http://afnom.net/assets/vibrant/Organising_Monkeys.pdf">Organising Monkeys or How to Run a <em>Hacking</em> Club</a> <br />
-					 	<em>Andreea-Ina Radu, Sam L. Thomas</em> <br />
-				  Vibrant Workshop 2015, The first UK Workshop on Cybersecurity Training &amp; Education  <br />
-			  		  <a href="http://afnom.net/assets/vibrant/Organising_monkeys_pres.pdf">Presentation slides </a></p>
-	            </div>
-	          </div>
-			</div>
-		  </div>
-		 </div>
-		</div>
-
-        <!-- Write-ups
+		
+		
+        <!-- Calendar
         ================================================== -->
-        <div class="bs-docs-section clearfix" id="writeups">
+        <div class="bs-docs-section clearfix" id="timetable">
           <div class="row">
             <div class="col-lg-12">
               <div class="page-header">
-                <h3>Write-ups</h3>
+                <h3>Calendar</h3>
               </div>
 
   	        <div class="row">
   	          <div class="col-lg-12">
   	            <div class="bs-component">
-					<p>A full list of write-ups for competitions we have participated in can be found <a href="http://afnom.net/writeups/index.html">here</a>.</p>
-
-					<p>For submitting write-ups, please use <a href="http://afnom.net/misc_files/template-writeup.md">this template</a> if you want the file hosted on our site, or <a href="http://afnom.net/misc_files/external-writeup.md">the external template</a> if you plan to host the write-up on your own website. The format is Markdown. There are some explanations included in the files. Send them by email or submit a Git pull request.</p>
-  		          <p>
-  		             Some of the previous hacking competitions that we've gone in for include...
-					 <ul>
-						 <li>VolgaCTF 2015 Quals</li>
-						 <li>Boston Key Party 2015</li>
-						 <li>Ghost in the Shellcode 2015</li>
-						 <li>SECCON CTF 2014 Online Qualifications</li>
-						 <li>9447 Security Society CTF 2014</li>
-						 <li>CSCAMP Quals Nov 2014</li>
-						 <li>Hack.lu Oct 2014</li>
-					 </ul>
-  		          </p>
+				  <p>Below you find the schedule of topics we will discuss each meeting and who will give the presentation. Important CTFs in which we will participate are also mentioned.</p>	<br />
+				   <div id='loading' > Loading... </div>	
+  		          <div id='calendar' > </div>
+			  </div>
   	            </div>
   	          </div>
   		  </div>
   		 </div>
   		</div>
 
-        <!-- Timetable
-        ================================================== -->
-        <div class="bs-docs-section clearfix" id="timetable">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="page-header">
-                <h3>Timetable</h3>
-              </div>
-
-  	       	  <div class="bs-component">
-
-				<p>Below you find the schedule of topics we will discuss each meeting and who will give the presentation. Important CTFs in which we will participate are also mentioned.</p>
-
-		      	<table class="table table-striped table-hover ">
-
-	            <thead>
-	              <tr>
-	                <th>Date</th>
-	                <th>Topic / CTF</th>
-					<th>Presenter / Info</th>
-	              </tr>
-	            </thead>
-
-        <tr>
-      		<td>19 Feb '16</td>
-      		<td><a href="/assets/2015/9447ctf2015-release.zip">9447 2015 CTF -- practice</a></td>
-      		<td></td>
-      	</tr>
-        <tr class="warning">
-      		<td>20 Feb '16</td>
-      		<td>Internetwache CTF 2016</td>
-      		<td>20 Feb. 2016, 11:00 UTC — 21 Feb. 2016, 23:00 UTC</td>
-      	</tr>
-        <tr>
-      		<td>26 Feb '16</td>
-      		<td>Format strings</td>
-      		<td></td>
-      	</tr>
-        <tr class="warning">
-          <td>27 Feb '16</td>
-          <td>SSCTF 2016 Quals</td>
-          <td>27 Feb. 2016, 00:00 UTC — 29 Feb. 2016, 00:00 UTC</td>
-        </tr>
-        <tr>
-      		<td>4 March '16</td>
-      		<td>IoT pen-testing -- session 1</td>
-      		<td></td>
-      	</tr>
-        <tr class="warning">
-          <td>4 March '16</td>
-          <td>Boston Key Party</td>
-          <td>04 March 2016, 22:00 UTC — 06 March 2016, 22:00 UTC</td>
-        </tr>
-        <tr>
-      		<td>11 March '16</td>
-      		<td>IoT pen-testing -- session 2</td>
-      		<td></td>
-      	</tr>
-        <tr>
-      		<td>18 March '16</td>
-      		<td>MiniCTF -- reloaded!</td>
-      		<td></td>
-      	</tr>
-
-
-
-        <tr>
-            <td colspan="3" class="info"> Past events </td>
-        </tr>
-				<tr>
-					<td>16 Oct '15</td>
-					<td><a href="assets/2015/presentations/AFNOM-Web_Attacks.pdf">SQL injection, XSS, OWASP top 10</a></td>
-					<td>Pegasus</td>
-				</tr>
-				<tr class="warning">
-					<td>20 Oct '15</td>
-					<td>Hack.lu CTF</td>
-					<td>20 Oct. 2015, 08:00 UTC — 22 Oct. 2015, 08:00 UTC <br /> Costa Coffee in Guild of Students for 20 Oct <br /> Room 245 booked for 21 Oct</td>
-				</tr>
-				<tr>
-					<td>23 Oct '15</td>
-					<td><a href="assets/2015/presentations/burp-and-wireshark.pdf">Traceroute, Nmap, Wireshark, Burp Proxy</a></td>
-					<td>neko3</td>
-				</tr>
-				<tr class="warning">
-					<td>24 Oct '15</td>
-					<td>TUM CTF Teaser</td>
-					<td>24 Oct. 2015, 12:00 UTC — 25 Oct. 2015, 12:00 UTC</td>
-				</tr>
-				<tr class="danger">
-					<td>30 Oct '15</td>
-					<td>AFNOM goes on vacation!</td>
-					<td> </td>
-				</tr>
-				<tr>
-					<td>06 Nov '15</td>
-					<td><a href="http://xorp.se/slides/afnom-intro-binary-analysis15/#/an-introduction-to-binary-analysis">IDA/x86/x86-64</a></td>
-					<td>xorpse</td>
-				</tr>
-				<tr>
-					<td>13 Nov '15</td>
-					<td>Reverse engineering - practice</td>
-					<td>xorpse</td>
-				</tr>
-				<tr>
-					<td>20 Nov '15</td>
-					<td>Advanced Burp Usage</td>
-					<td>Abstract</td>
-				</tr>
-				<tr>
-					<td>27 Nov '15</td>
-					<td>ROP, SROP</td>
-					<td>Break</td>
-				</tr>
-				<tr class="warning">
-					<td>27 Nov '15</td>
-					<td>9447 CTF</td>
-					<td>27 Nov. 2015, 23:00 UTC — 29 Nov. 2015, 23:00 UTC</td>
-				</tr>
-				<tr>
-					<td>4 Dec '15</td>
-					<td>AFNOM Mini-CTF</td>
-					<td> </td>
-				</tr>
-				<tr class="warning">
-					<td>18 Dec '15</td>
-					<td>FAUST CTF</td>
-					<td>18 Dec. 2015, 16:00 UTC — 19 Dec. 2015, 00:00 UTC <br /> Attack-Defence CTF</td>
-				</tr>
-				<tr class="warning">
-					<td>08 Jan '15</td>
-					<td>Ghost in the Shellcode VII</td>
-					<td>08 Jan. 2016, 20:00 UTC — 10 Jan. 2016, 04:59 UTC</td>
-				</tr>
-				</table>
-
-			  </div>
-  		 	</div>
-  		</div>
+	   
+       
 
     <!-- Tools
     ================================================== -->
@@ -503,34 +401,64 @@
 	  </div>
 	 </div>
 	</div>
-
-
-    <!-- Contact
+	
+    <!-- Write-ups
     ================================================== -->
-    <div class="bs-docs-section clearfix" id="contact">
+    <div class="bs-docs-section clearfix" id="writeups">
       <div class="row">
         <div class="col-lg-12">
           <div class="page-header">
-            <h3>Contact</h3>
+            <h3>Write-ups</h3>
           </div>
 
         <div class="row">
           <div class="col-lg-12">
             <div class="bs-component">
-              <p> To keep up to date about meeting and competitions please join our mailing list  <a href="http://groups.google.com/group/bham-hacking-group">bham-hacking-group</a>. For more information please contact <a href="http://www.cs.bham.ac.uk/~air111">Andreea Radu</a> or <a href="http://www.cs.bham.ac.uk/~tpc/contact.html">Tom Chothia</a>.</p>
+				<p>A full list of write-ups for competitions we have participated in can be found <a href="http://afnom.net/writeups/index.html">here</a>.</p>
+
+				<p>For submitting write-ups, please use <a href="http://afnom.net/misc_files/template-writeup.md">this template</a> if you want the file hosted on our site, or <a href="http://afnom.net/misc_files/external-writeup.md">the external template</a> if you plan to host the write-up on your own website. The format is Markdown. There are some explanations included in the files. Send them by email or submit a Git pull request.</p>
+	          
+            </div>
+          </div>
+	  </div>
+	 </div>
+	</div>
+	
+	
+	
+    <!-- Publications
+    ================================================== -->
+    <div class="bs-docs-section clearfix" id="pubs">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="page-header">
+            <h3>Publications</h3>
+          </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="bs-component">
+              <p> <a href="http://afnom.net/assets/vibrant/Organising_Monkeys.pdf">Organising Monkeys or How to Run a <em>Hacking</em> Club</a> <br />
+				 	<em>Andreea-Ina Radu, Sam L. Thomas</em> <br />
+			  Vibrant Workshop 2015, The first UK Workshop on Cybersecurity Training &amp; Education  <br />
+		  		  <a href="http://afnom.net/assets/vibrant/Organising_monkeys_pres.pdf">Presentation slides </a></p>
             </div>
           </div>
 		</div>
 	  </div>
 	 </div>
 	</div>
+	
+
+
+    
 	<hr>
       <footer>
         <div class="row">
           <div class="col-lg-12">
 
 
-            <p>Copyright &copy; University of Birmingham 2015</p>
+            <p>Copyright &copy; University of Birmingham 2015 - <script>document.write(new Date().getFullYear())</script></p>
 
           </div>
         </div>

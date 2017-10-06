@@ -11,5 +11,6 @@ github_username:  afnom
 # Build settings
 markdown: kramdown
 highlighter: rouge
+plugins: [jekyll-paginate]
 paginate: 10
 paginate_path: "writeups/page:num/"
