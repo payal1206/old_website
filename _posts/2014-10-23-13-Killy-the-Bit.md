@@ -34,7 +34,7 @@ that are similar to the provided name.
 
 This page is serviced by a php script, which is provided with the code that
 generated the password redacted. The index.phps file can be found
-[here](http://afnom.net/assets/2014/killy-the-bit_index.phps) (right click -&gt; save as)
+[here]({{site.url}}/assets/2014/killy-the-bit_index.phps) (right click -&gt; save as)
 
 ## SQL Injection
 
@@ -165,7 +165,7 @@ final flag was:
 
   
 In this step, the Java script won the race. The Java script can be found
-[here](http://afnom.net/assets/2014/killy-the-bit_URLFetcher.java).
+[here]({{site.url}}/assets/2014/killy-the-bit_URLFetcher.java).
 
 A later hint by the admins stated that a single query can return the password
 and brute forcing is not necessary, but we were still pleased to solve this

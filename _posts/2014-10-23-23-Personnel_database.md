@@ -105,5 +105,5 @@ Here is the list of commands that gives us the flag:
 	descr	"flag{this_is_why_gets_is_better_than_fgets}"
 
 
-[1]: http://afnom.net/assets/2014/personnel_database_server_67e4ead6aeb111cc19de03d1f3d15fab.c      "file"
+[1]: {{site.url}}/assets/2014/personnel_database_server_67e4ead6aeb111cc19de03d1f3d15fab.c      "file"
 

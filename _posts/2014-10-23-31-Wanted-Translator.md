@@ -71,7 +71,7 @@ tftp wildwildweb.fluxfingers.net
 tftp> get flag
 {% endhighlight %}
 
-[Here](http://afnom.net/assets/2014/tftp.txt) is the file, including a bonus text adventure.
+[Here]({{site.url}}/assets/2014/tftp.txt) is the file, including a bonus text adventure.
 
 ### 3.2.6. IRC
 

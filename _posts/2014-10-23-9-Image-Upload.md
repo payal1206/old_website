@@ -21,7 +21,7 @@ section which accepted pictures (jpg/jpeg). After uploading a picture some
 meta-information of the exif-header of images were displayed (height, width, author,
 manufacturer, model).
 
-![./imageupload.png](http://afnom.net/assets/2014/imageupload.png)
+![./imageupload.png]({{site.url}}/assets/2014/imageupload.png)
 
 After unsuccessfully uploading a php shell (as shell.jpg), we focused on the exif data.
 

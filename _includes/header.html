@@ -5,7 +5,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+		<a href="{{site.url}}" class="navbar-brand">AFiniteNumberOfMonkeys</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -15,31 +15,23 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav navbar-right">
 			<li class="dropdown">
-			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net" id="home">Home <span class="caret"></span></a>
+				<a class="dropdown-toggle" data-toggle="dropdown" href="{{site.url}}" id="home">Home <span class="caret"></span></a>
 			   <ul class="dropdown-menu" aria-labelledby="home">
-			     <li><a href="http://afnom.net/index.html#who">Who we are</a></li>
-				 <li><a href="http://afnom.net/index.html#contact">Contact</a></li>
-			     <li><a href="http://afnom.net/index.html#meetings">Meetings</a></li>
-				 <li><a href="http://afnom.net/index.html#timetable">Calendar</a></li>
-			     <li><a href="http://afnom.net/index.html#tools">Tools</a></li>
-			     <li><a href="http://afnom.net/index.html#materials">Learning material</a></li>
-				 <li><a href="http://afnom.net/index.html#writeups">Writeups</a></li>
-				 <li><a href="http://afnom.net/index.html#pubs">Publications</a></li>
+				   <li><a href="{{ site.url}}/index.html#who">Who we are</a></li>
+				   <li><a href="{{site.url}}/index.html#contact">Contact</a></li>
+				   <li><a href="{{site.url}}/index.html#meetings">Meetings</a></li>
+				   <li><a href="{{site.url}}/index.html#timetable">Calendar</a></li>
+				   <li><a href="{{site.url}}/index.html#tools">Tools</a></li>
+				   <li><a href="{{site.url}}/index.html#materials">Learning material</a></li>
+				   <li><a href="{{site.url}}/index.html#writeups">Writeups</a></li>
+				   <li><a href="{{site.url}}/index.html#pubs">Publications</a></li>
 			   </ul>
 			 </li>
-            <li><a href="http://afnom.net/writeups/index.html">Write-ups</a></li>
+			 <li><a href="{{site.url}}/writeups/index.html">Write-ups</a></li>
           </ul>
 
         </div>
       </div>
     </div>
 </div>
-
-        {% for page in site.pages %}
-          {% if page.title %}
-          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-          {% endif %}
-        {% endfor %}
-
-
 </header>

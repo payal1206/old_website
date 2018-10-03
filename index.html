@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<!-- saved from url=(0030)http://bootswatch.com/cyborg/# -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>AFiniteNumberOfMonkeys -- University of Birmingham Hacking Club</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-darkly.css" media="screen">
-	<link rel="stylesheet" href="css/style.css" >
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link href='css/fullcalendar.min.css' rel='stylesheet' />
-
-	<script src="js/jquery.min.js"></script>
-    	<script src="js/bootstrap.min.js"></script>
-	<script src='js/moment.min.js'></script>
-	<script src='js/fullcalendar.min.js'></script>
-	<script src='js/gcal.min.js'></script>
+---
+layout: default
+---
 	<style>
 
 		#loading {
@@ -29,6 +16,9 @@
 		}
 
 	</style>
+	<script src='{{site.url}}/js/moment.min.js'></script>
+	<script src='{{site.url}}/js/fullcalendar.min.js'></script>
+	<script src='{{site.url}}/js/gcal.min.js'></script>
 	<script type='text/javascript'>
 
 	$(document).ready(function() {
@@ -57,14 +47,29 @@
 	});
 
 	</script>
+<script type="text/javascript">
+
+    function loadCSS(filename){ 
+
+       var file = document.createElement("link");
+       file.setAttribute("rel", "stylesheet");
+       file.setAttribute("type", "text/css");
+       file.setAttribute("href", filename);
+       document.head.appendChild(file);
+
+    }
 
 
-  </head>
-  <body>
+   //just call a function to load your CSS
+   //this path should be relative your HTML location
+loadCSS("{{site.url}}/css/fullcalendar.min.css");
+
+</script>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="http://afnom.net/" class="navbar-brand">AFiniteNumberOfMonkeys</a>
+		<a href="{{site.url}}" class="navbar-brand">AFiniteNumberOfMonkeys</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -74,20 +79,19 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav navbar-right">
 			<li class="dropdown">
-			   <a class="dropdown-toggle" data-toggle="dropdown" href="http://afnom.net/" id="home">Home <span class="caret"></span></a>
+				<a class="dropdown-toggle" data-toggle="dropdown" href="{{site.url}}" id="home">Home <span class="caret"></span></a>
 			   <ul class="dropdown-menu" aria-labelledby="home">
-			     <li><a href="#who">Who we are</a></li>
-				 <li><a href="#contact">Contact</a></li>
-			     <li><a href="#meetings">Meetings</a></li>
-				 <li><a href="#timetable">Calendar</a></li>
-			     <li><a href="#tools">Tools</a></li>
-			     <li><a href="#materials">Learning material</a></li>
-				 <li><a href="#writeups">Writeups</a></li>
-				 <li><a href="#pubs">Publications</a></li>
-
+				   <li><a href="{{ site.url}}/index.html#who">Who we are</a></li>
+				   <li><a href="{{site.url}}/index.html#contact">Contact</a></li>
+				   <li><a href="{{site.url}}/index.html#meetings">Meetings</a></li>
+				   <li><a href="{{site.url}}/index.html#timetable">Calendar</a></li>
+				   <li><a href="{{site.url}}/index.html#tools">Tools</a></li>
+				   <li><a href="{{site.url}}/index.html#materials">Learning material</a></li>
+				   <li><a href="{{site.url}}/index.html#writeups">Writeups</a></li>
+				   <li><a href="{{site.url}}/index.html#pubs">Publications</a></li>
 			   </ul>
 			 </li>
-            <li><a href="http://afnom.net/writeups/index.html">Write-ups</a></li>
+			 <li><a href="{{site.url}}/writeups/index.html">Write-ups</a></li>
           </ul>
 
         </div>
@@ -412,9 +416,9 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="bs-component">
-				<p>A full list of write-ups for competitions we have participated in can be found <a href="http://afnom.net/writeups/index.html">here</a>.</p>
+		    <p>A full list of write-ups for competitions we have participated in can be found <a href="{{site.url}}/writeups/index.html">here</a>.</p>
 
-				<p>For submitting write-ups, please use <a href="http://afnom.net/misc_files/template-writeup.md">this template</a> if you want the file hosted on our site, or <a href="http://afnom.net/misc_files/external-writeup.md">the external template</a> if you plan to host the write-up on your own website. The format is Markdown. There are some explanations included in the files. Send them by email or submit a Git pull request.</p>
+		    <p>For submitting write-ups, please use <a href="{{site.url}}/misc_files/template-writeup.md">this template</a> if you want the file hosted on our site, or <a href="{{site.url}}/misc_files/external-writeup.md">the external template</a> if you plan to host the write-up on your own website. The format is Markdown. There are some explanations included in the files. Send them by email or submit a Git pull request.</p>
 
             </div>
           </div>
@@ -436,10 +440,10 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="bs-component">
-              <p> <a href="http://afnom.net/assets/vibrant/Organising_Monkeys.pdf">Organising Monkeys or How to Run a <em>Hacking</em> Club</a> <br />
+		    <p> <a href="{{site.url}}/assets/vibrant/Organising_Monkeys.pdf">Organising Monkeys or How to Run a <em>Hacking</em> Club</a> <br />
 				 	<em>Andreea-Ina Radu, Sam L. Thomas</em> <br />
 			  Vibrant Workshop 2015, The first UK Workshop on Cybersecurity Training &amp; Education  <br />
-		  		  <a href="http://afnom.net/assets/vibrant/Organising_monkeys_pres.pdf">Presentation slides </a></p>
+			  <a href="{{site.url}}/assets/vibrant/Organising_monkeys_pres.pdf">Presentation slides </a></p>
             </div>
           </div>
 		</div>
@@ -447,23 +451,5 @@
 	 </div>
 	</div>
 
-
-
-
-	<hr>
-      <footer>
-        <div class="row">
-          <div class="col-lg-12">
-
-
-            <p>Copyright &copy; University of Birmingham 2015 - <script>document.write(new Date().getFullYear())</script></p>
-
-          </div>
-        </div>
-
-      </footer>
-
-
     </div>
 
-</body></html>
