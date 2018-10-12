@@ -5,7 +5,7 @@ description: > # this means to ignore newlines until "baseurl:"
   AFiniteNumberOfMonkeys -- the Hacking Club of University of Birmingham.
   Any problem can be solved by enough monkeys acting completely at random
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://afnom.github.io" # the base hostname & protocol for your site
+url: "https://afnom.net" # the base hostname & protocol for your site
 github_username:  afnom
 
 # Build settings
