@@ -13,7 +13,7 @@ steg
 
 Working hard to hide flags...
 
-[social_monkeys.jpg]({{ site.url }}/misc_files/wtctf19/social_monkeys.jpg){:target="_blank"}
+[social_monkeys.jpg]({{ site.url }}/assets/ctf-files/wtctf19/social_monkeys.jpg){:target="_blank"}
 
 ### Challenge solve
 
