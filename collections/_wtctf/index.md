@@ -5,7 +5,13 @@ date: 2019-03-25
 category: index
 ---
 
-<h2> Hello </h2>
+## Event
+
+On 23rd of March 2019 we have organised our first CTF ever! 
+
+Watch this space as we'll post more info and photos from the event!
+
+## Writeups
 
 We would like to provide official writeups for some of the challenges. If you solved them in a different way, we'd be happy to add your writeup to the list, so send us an email or a tweet! 
 
