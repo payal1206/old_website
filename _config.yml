@@ -14,3 +14,14 @@ highlighter: rouge
 plugins: [jekyll-paginate]
 paginate: 10
 paginate_path: "writeups/page:num/"
+collections_dir: collections
+
+collections:
+  wtctf:
+    permalink: /:collection/:year/:title/
+    output: true
+defaults:
+  -scope:
+      path:""
+  values:
+    layout: post
