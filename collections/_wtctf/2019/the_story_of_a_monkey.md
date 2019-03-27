@@ -11,9 +11,9 @@ forensics
 
 ### Description
 
-We've got a lovely bed-time story for you, just in a different format.
-
-[the_story_of_a_monkey.pcap]({{ site.url }}/assets/ctf-files/wtctf19/the_story_of_a_monkey.pcap)
+> We've got a lovely bed-time story for you, just in a different format.
+>
+> [the_story_of_a_monkey.pcap]({{ site.url }}/assets/ctf-files/wtctf19/the_story_of_a_monkey.pcap)
 
 ### Challenge solve
 
