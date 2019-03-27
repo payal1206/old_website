@@ -3,6 +3,7 @@ layout: post
 title: WhatTheCTF 2019
 date: 2019-03-25
 category: index
+permalink: /wtctf19/
 ---
 
 ## Event
