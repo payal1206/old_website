@@ -95,7 +95,7 @@ Now there's a few things we could try here.
 
 Co-ordinates?
 
-[co-ordinates.PNG]({{ site.url }}/assets/ctf-files/wtctf19/co-ordinates.png)
+[co-ordinates.PNG]({{ site.url }}/assets/ctf-files/wtctf19/co-ordinates.PNG)
 
 Doesn't look particularly relevant.
 
@@ -138,7 +138,7 @@ Wait, that doesn't look right. Maybe we should try decoding it the other way rou
 
 {% highlight SHELL %}
 >>> pattern
-`00011001000110111101101110011101000010000001100010011001010010000001101001011100100111001001100001011101000110100101101111011011100110000101101100`
+'00011001000110111101101110011101000010000001100010011001010010000001101001011100100111001001100001011101000110100101101111011011100110000101101100'
 {% endhighlight %}
 
 `..Û....H.\..].[Û.[.` still doesn't look right. Maybe its a padding issue? Lets try looking at just the fractional-part of the two strings.
