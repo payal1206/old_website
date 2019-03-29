@@ -36,11 +36,7 @@ We would like to provide official writeups for some of the challenges. Let us kn
 
 ## Photo Gallery
 
-### Graeme Brainwood
+### Photographs by Graeme Brainwood
 These photos have been provided courtesy of [Graeme Braidwood](https://www.graemebraidwood.com/).
-
-{% include image-gallery.html folder="/assets/photos/wtctf-graeme19" %}
-
-### AFNOM photos
 
 {% include image-gallery.html folder="/assets/photos/wtctf19" %}
