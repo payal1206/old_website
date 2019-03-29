@@ -126,6 +126,31 @@ loadCSS("{{site.url}}/css/fullcalendar.min.css");
 	 </div>
 	</div>
 
+   <!-- WTCTF
+================================================== -->
+<div class="bs-docs-section clearfix" id="contact">
+<div class="row">
+<div class="col-lg-12">
+<div class="page-header">
+<h3>WhatTheCTF 2019</h3>
+</div>
+
+<div class="row">
+<div class="col-lg-12">
+<div class="bs-component">
+<p> This year we have organised our first CTF! You can read more about it and see our amazing photos here: </p>
+{% for ctf in site.wtctf %}
+{% if ctf.category == "index" %}
+<p><a href="{{ ctf.url | prepend: site.url }}" target="_new"><img src={{ site.url | append: "/assets/" | append: ctf.logo }} style="height: 10em;"/></a></p>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 
       <!-- Meetings
       ================================================== -->
