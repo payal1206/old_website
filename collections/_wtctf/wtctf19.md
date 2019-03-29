@@ -34,9 +34,13 @@ We would like to provide official writeups for some of the challenges. Let us kn
 </table>
 
 
-## Photo Gallery
+## Media Gallery
 
-### Photographs by Graeme Brainwood
-These photos have been provided courtesy of [Graeme Braidwood](https://www.graemebraidwood.com/).
+### Photographs by [Graeme Brainwood](https://www.graemebraidwood.com/).
 
 {% include image-gallery.html folder="/assets/photos/wtctf19" %}
+
+
+## Video
+
+<iframe width="700" height="350" src="https://www.youtube.com/embed/XzVBSkna5pc" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
