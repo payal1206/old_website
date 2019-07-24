@@ -43,4 +43,4 @@ We would like to provide official writeups for some of the challenges. Let us kn
 
 ## Video
 
-<iframe width="700" height="350" src="https://www.youtube.com/embed/XzVBSkna5pc" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="700" height="350" src="https://www.youtube-nocookie.com/embed/XzVBSkna5pc" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
