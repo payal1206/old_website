@@ -27,12 +27,7 @@ Please register your interest by filling up this (super-short) form: [HackBack2 
 
 ## CTF Warmup
 
-TryHackMe have provided a few rooms to get you started for the CTF. Check them out below:
+TryHackMe have provided a room to get you started for the CTF. Check it out below:
 
-[linuxctf](https://tryhackme.com/room/linuxctf) - Learn Linux by completing challenges (room will be free next weekend)
+[linuxctf](https://tryhackme.com/room/linuxctf) - Learn Linux by completing challenges (room will be free on the weekend of 5 Oct)
 
-[steelmountain](https://tryhackme.com/room/steelmountain) - Hack a Windows machine. Use Metasploit for initial access, utilise powershell for Windows enumeration & get Administrator access.
-
-[reverse engineering](https://tryhackme.com/room/reverseengineering) - Learn the basics of reverse engineering.
-
-[toolsrus](https://tryhackme.com/room/toolsrus) - Practise using security tools such as dirbuster, hydra, nmap, nikto and metasploit
