@@ -27,7 +27,5 @@ Please register your interest by filling up this (super-short) form: [HackBack2 
 
 ## CTF Warmup
 
-TryHackMe have provided a room to get you started for the CTF. Check it out below:
-
-[linuxctf](https://tryhackme.com/room/linuxctf) - Learn Linux by completing challenges (room will be free on the weekend of 5 Oct)
+TryHackMe have a number of rooms to get you started for the CTF. Register an account on the platform and filter for the *free* ones. Also, they will be making the [linuxctf room](https://tryhackme.com/room/linuxctf) free on the weekend of 18th of Oct).
 
