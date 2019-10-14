@@ -151,10 +151,16 @@ loadCSS("{{site.url}}/css/fullcalendar.min.css");
           </div>
         </div>
       </div>
-   {% for ctf in site.ctfs%}
+
+   {% assign idx = 0 %}
+   {% assign up_to = site.ctfs.size | plus: 0 %}
+   {% for ctf in site.ctfs reversed %}
      {% if ctf.category == "index" %}
-      <div class="row">
-       <div class="col-lg-12">
+       {% assign m = idx| modulo: 2 %}
+       {% if m == 0 %}
+        <div class="row">
+       {% endif %}
+       <div class="col-lg-6">
          <div class="bs-component">
            <h3>{{ ctf.title }}</h3>
            <p> {{ ctf.desc }}  </p>
@@ -163,8 +169,11 @@ loadCSS("{{site.url}}/css/fullcalendar.min.css");
                        | append: ctf.logo }} style="height: 8em;"/></a></p>
          </div>
        </div>
-      </div>
+       {% if m == 1 or idx == up_to %}
+       </div>
        {% endif %}
+       {% assign idx = idx | plus: 1 %}
+     {% endif %}
    {% endfor %}
     </div>
   </div>
