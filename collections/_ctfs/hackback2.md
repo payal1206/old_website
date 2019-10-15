@@ -13,6 +13,8 @@ On 26th of October 2019, we are hosting the [HackBack2 CTF](https://tryhackme.co
 
 The CTF is going to be perfect for beginners and seasoned players as well! So if you are interested in cybersecurity and CTFs, this is the perfect place to start!
 
+### !!! Please bring your laptops. The CTF requires openvpn, which in turn requires root permissions. The computer labs do not allow running programs as `root` 
+
 We will be providing snacks, lunch and swag!
 
 Please register your interest by filling up this (super-short) form: [HackBack2 signup](https://docs.google.com/forms/d/e/1FAIpQLScMXfsaR3x2VpVQe5QaNEGdB6mNN4YWZgk24Nt4A40-si7CXQ/viewform). This will allow us to provision enough food and swag for everyone! 
