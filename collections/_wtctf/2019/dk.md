@@ -16,7 +16,7 @@ pwn
 > ```
 > nc challenge.whatthectf.afnom.net 4007 
 > ```
-> [dk.c](https://afnom.net/assets/ctf-files/wtctf19/dk.c), [dk](https://afnom.net/assets/ctf-files/wtctf19/dk)
+> [dk.c](/assets/ctf-files/wtctf19/dk.c), [dk](/assets/ctf-files/wtctf19/dk)
 
 ### Challenge solve
 
