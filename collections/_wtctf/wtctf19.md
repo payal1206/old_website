@@ -5,6 +5,7 @@ date: 2019-03-25
 category: index
 permalink: /wtctf19/
 logo: wtctf19.png
+desc: In 2019 we have organised our first CTF! You can read more about it and see our amazing photos below
 ---
 
 ## Event
