@@ -1,6 +1,6 @@
 afnom.github.io
 ===============
 
-The official website for A Finite Number of Monkeys Hacking Team.
+The old website for A Finite Number of Monkeys Hacking Team.
 
-See also: [afnom.net](https://afnom.net)
+New website: [afnom.net](https://afnom.net)
